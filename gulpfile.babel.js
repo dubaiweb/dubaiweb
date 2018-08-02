@@ -52,7 +52,7 @@ gulp.task("css", () => (
   gulp.src("./src/css/*.css")
     .pipe(sourcemaps.init())
     .pipe(postcss(processors))
-    // .pipe(nano())
+    .pipe(nano())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest("./dist/css"))
     .pipe(browserSync.stream())
@@ -98,7 +98,7 @@ function runServer() {
   gulp.watch("./site/**/*", ["hugo"]);
 }
 
-function buildSite(cb, options, environment = "development") {
+function buildSite(cb, options, environment = "production") {
   const args = options ? hugoArgsDefault.concat(options) : hugoArgsDefault;
 
   process.env.NODE_ENV = environment;

@@ -1,50 +1,36 @@
-<div class="uk-visible@s" uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; show-on-up:true; animation: uk-animation-slide-top; bottom: #sticky-on-scroll-up">
-  <nav class="uk-navbar uk-navbar-container" uk-navbar="dropbar:true;">
-    <div class="uk-navbar-left">
-      <a class="uk-navbar-item uk-logo" href="#">
-        <img src="images/logos/logo-sw.svg" width="30" height="36" uk-svg>
-      </a>
+<div id="top" class="header" uk-height-viewport>
+  <div class="uktop uk-section uk-section-xsmall">
+    <div class="uk-container">
+      <h1 class="uk-heading-primary nothing">Isabella</h1>
     </div>
-    <div class="uk-navbar-right">
-      <ul class="uk-navbar-nav">
-        <li class="uk-active">
-          <a href="#">Home</a>
-        </li>
-        <li>
-          <a href="#">Product</a>
-        </li>
-        <li>
-          <a href="#">Company</a>
-        </li>
-        <li>
-          <a href="#">News</a>
-        </li>
-      </ul>
-    </div>
-  <div class="uk-navbar-dropbar uk-navbar-dropbar-slide"></div>
-  </nav>
-</div>
+  </div>
 
-<div class="uk-hidden@s" uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; show-on-up:true; animation: uk-animation-slide-top; bottom: #sticky-on-scroll-up">
-  <nav class="uk-navbar uk-navbar-container" uk-navbar>
-    <div class="uk-navbar-left">
-      <a class="uk-navbar-item uk-logo" href="#">
-        <img src="images/logos/logo-sw.svg" width="30" height="36" uk-svg>
-      </a>
-    </div>
+  <div class="nav-top" uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent">
+    <nav class="uk-navbar uk-navbar-container uk-background-default" uk-navbar>
+      <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav" uk-scrollspy-nav="closest: li; scroll: true">
+          <li class="uk-active">
+            <a href="#top" uk-scroll>Home</a>
+          </li>
+          <li>
+            <a href="#gallery" uk-scroll>Gallery</a>
+          </li>
+          <li>
+            <a href="#travel" uk-scroll>Travelguide</a>
+          </li>
+          <li>
+            <a href="#end" uk-scroll>Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 
-    <div class="uk-navbar-right">
-      <a  href="#offcan" class="uk-navbar-toggle" uk-navbar-toggle-icon uk-toggle="target: #offcan"></a>
-    </div>
-  </nav>
-</div>
-
-<div class="uk-section uk-padding-remove">
-  <div class="uk-background-cover uk-light" uk-height-viewport uk-parallax="bgy: -200; grayscale: 10%;" style="background-image: url(images/bilder/stock04.jpg);">
-    <div class="uk-container logo-h">
-      <div class="uk-position-center uk-flex uk-flex-column">
-        <div class="" uk-parallax="opacity: 1,0; blur: 5;">
-          <img src="images/logos/logo-sw.svg" width="120" height="150" uk-svg>
+  <div class="uk-section uk-padding-remove uk-position-relative">
+    <div class="uk-background-cover uk-light" uk-height-viewport="offset-top: true" uk-parallax="bgy: -200;" style="background-image: url(images/girl-01.jpg);">
+      <div class="uk-overlay uk-overlay-default uk-position-cover"  uk-parallax="background-color:rgba(255,255,255,0.7),rgba(255,255,255,0.10)"></div>
+      <div class="uk-container logo-h">
+        <div class="uk-position-center uk-flex uk-flex-column">
         </div>
       </div>
     </div>
