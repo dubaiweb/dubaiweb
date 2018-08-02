@@ -1,4 +1,5 @@
 baseurl = "https://dubai.netlify.com"
+# baseurl = "/"
 languageCode = "en-us"
 languageLang = "en"
 title = "Dubai Massage"
