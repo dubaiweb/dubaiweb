@@ -1,0 +1,3 @@
+[submodule "src/uikit"]
+	path = src/uikit
+	url = https://github.com/uikit/uikit.git
