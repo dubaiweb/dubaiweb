@@ -1,6 +1,10 @@
 [build]
   command = "gulp build"
   publish = "dist"
+  functions = "src/functions"
+
+[build.environment]
+  GO_IMPORT_PATH = "src/functions/dubai"
 
 [context.production.environment]
   HUGO_VERSION = "0.46"
