@@ -41,12 +41,12 @@ gulp.task("hugo", (cb) => buildSite(cb));
 gulp.task("hugo-preview", (cb) => buildSite(cb, hugoArgsPreview));
 
 // Run server tasks
-gulp.task("server", ["hugo", "css", "js", "fonts"], (cb) => runServer(cb));
-gulp.task("server-preview", ["hugo-preview", "css", "js", "fonts"], (cb) => runServer(cb));
+gulp.task("server", ["hugo", "sass", "css", "js", "fonts"], (cb) => runServer(cb));
+gulp.task("server-preview", ["hugo-preview", "sass", "css", "js", "fonts"], (cb) => runServer(cb));
 
 // Build/production tasks
-gulp.task("build", ["css", "js", "fonts"], (cb) => buildSite(cb, [], "production"));
-gulp.task("build-preview", ["css", "js", "fonts"], (cb) => buildSite(cb, hugoArgsPreview, "production"));
+gulp.task("build", ["sass", "css", "js", "fonts"], (cb) => buildSite(cb, [], "production"));
+gulp.task("build-preview", ["sass", "css", "js", "fonts"], (cb) => buildSite(cb, hugoArgsPreview, "production"));
 
 gulp.task("css", () => (
   gulp.src("./src/css/*.css")

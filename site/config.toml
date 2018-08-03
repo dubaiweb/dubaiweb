@@ -1,5 +1,5 @@
-baseurl = "https://dubai.netlify.com"
-# baseurl = "/"
+# baseurl = "https://dubai.netlify.com"
+baseurl = "/"
 languageCode = "en-us"
 languageLang = "en"
 title = "Dubai Massage"
@@ -8,3 +8,9 @@ title = "Dubai Massage"
 # See configuration options for more details:
 # https://gohugo.io/getting-started/configuration/#toml-configuration
 disableKinds = ["RSS", "taxonomy", "taxonomyTerm"]
+
+buildDrafts = true
+enableEmoji = true
+enableGitInfo = true
+enableRobotsTXT = true
+
