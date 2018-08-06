@@ -1,7 +1,7 @@
-baseurl = "https://www.dubaierotic.com"
+baseurl = "/"
+title = "Sina Dubai Massage"
 languageCode = "en-us"
 languageLang = "en"
-title = "Sina Dubai Massage"
 
 disableKinds = ["RSS", "taxonomy", "taxonomyTerm"]
 
