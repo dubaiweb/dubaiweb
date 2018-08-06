@@ -1,6 +1,25 @@
 [build]
   command = "gulp build"
   publish = "dist"
+  functions = "src/functions"
+
+[build.environment]
+  GO_IMPORT_PATH = "src/functions/dubai"
+
+[context.production.environment]
+  HUGO_VERSION = "0.46"
+  HUGO_ENV = "production"
+  HUGO_ENABLEGITINFO = "true"
+
+[context.split1]
+  command = "hugo --enableGitInfo"
+
+[context.split1.environment]
+  HUGO_VERSION = "0.46"
+  HUGO_ENV = "production"
 
 [context.deploy-preview]
   command = "gulp build-preview"
+
+[context.deploy-preview.environment]
+  HUGO_VERSION = "0.46"

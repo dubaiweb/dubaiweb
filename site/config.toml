@@ -1,10 +1,16 @@
-baseurl = "https://dubai.netlify.com"
+baseurl = "https://sina.dubaierotic.com"
+# baseurl = "https://www.dubaierotic.com"
 # baseurl = "/"
 languageCode = "en-us"
 languageLang = "en"
-title = "Dubai Massage"
+title = "Sina Dubai Massage"
 
 # RSS, categories and tags disabled for an easy start
 # See configuration options for more details:
 # https://gohugo.io/getting-started/configuration/#toml-configuration
 disableKinds = ["RSS", "taxonomy", "taxonomyTerm"]
+
+buildDrafts = true
+enableEmoji = true
+enableGitInfo = true
+enableRobotsTXT = true
