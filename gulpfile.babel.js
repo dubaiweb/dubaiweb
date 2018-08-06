@@ -22,31 +22,56 @@ import newer from "gulp-newer";
 import rename from "gulp-rename";
 import notify from "gulp-notify";
 
+var argv  = require('minimist')(process.argv);
+
 const browserSync = BrowserSync.create();
 
-// Hugo arguments
-const hugoArgsDefault = ["-d", "../dist", "-s", "site", "-v"];
-const hugoArgsPreview = ["--buildDrafts", "--buildFuture"];
-
 const processors = [
-    cssImport({from: "./src/css/main.css"}),
-    precss(),
-    rucksack(),
-    util(),
-    cssnext()
+  cssImport({ from: "./src/css/main.css" }),
+  precss(),
+  rucksack(),
+  util(),
+  cssnext()
 ];
+
+const imgOpt = [
+  imagemin.gifsicle({interlaced: true}),
+  imagemin.jpegtran({progressive: true}),
+  imagemin.optipng({optimizationLevel: 5})
+];
+
+const imgSrc = './src/photos/**';
+const imgDest = './site/static/photos';
+
+if (argv.main) {
+  const conf = "site/main.toml";
+} else if (argv.mainl) {
+  const conf = "site/mainlocal.toml";
+} else if (argv.sina) {
+  const conf = "site/sina.toml";
+} else if (argv.sinal) {
+  const conf = "site/sinalocal.toml";
+} else {
+  const conf = "site/config.toml";
+}
+
+const conf = "site/sinalocal.toml";
+
+// Hugo arguments
+const hugoArgsDefault = ["-d", "../dist", "-s", "site", "-v", "--config", conf];
+const hugoArgsPreview = ["--buildDrafts", "--buildFuture"];
 
 // Development tasks
 gulp.task("hugo", (cb) => buildSite(cb));
 gulp.task("hugo-preview", (cb) => buildSite(cb, hugoArgsPreview));
 
 // Run server tasks
-gulp.task("server", ["hugo", "sass", "css", "js", "fonts"], (cb) => runServer(cb));
-gulp.task("server-preview", ["hugo-preview", "sass", "css", "js", "fonts"], (cb) => runServer(cb));
+gulp.task("server", ["hugo", "css", "js", "fonts"], (cb) => runServer(cb));
+gulp.task("server-preview", ["hugo-preview", "css", "js", "fonts"], (cb) => runServer(cb));
 
 // Build/production tasks
-gulp.task("build", ["sass", "css", "js", "fonts"], (cb) => buildSite(cb, [], "production"));
-gulp.task("build-preview", ["sass", "css", "js", "fonts"], (cb) => buildSite(cb, hugoArgsPreview, "production"));
+gulp.task("build", ["css", "js", "fonts"], (cb) => buildSite(cb, [], "production"));
+gulp.task("build-preview", ["css", "js", "fonts"], (cb) => buildSite(cb, hugoArgsPreview, "production"));
 
 gulp.task("css", () => (
   gulp.src("./src/css/*.css")
@@ -78,6 +103,13 @@ gulp.task("js", (cb) => {
   });
 });
 
+gulp.task('img', () =>
+  gulp.src(imgSrc)
+  // .pipe(newer(imgDest))
+  .pipe(imagemin(imgOpt))
+  .pipe(gulp.dest(imgDest))
+);
+
 gulp.task("fonts", () => (
   gulp.src("./src/fonts/**/*")
     .pipe(flatten())
@@ -95,10 +127,12 @@ function runServer() {
   gulp.watch("./src/css/**/*.css", ["css"]);
   gulp.watch("./src/css/**/**/*.scss", ["sass"]);
   gulp.watch("./src/fonts/**/*", ["fonts"]);
+  gulp.watch(imgSrc, ["img"]);
   gulp.watch("./site/**/*", ["hugo"]);
 }
 
-function buildSite(cb, options, environment = "production") {
+function buildSite(cb, options, environment = "development") {
+
   const args = options ? hugoArgsDefault.concat(options) : hugoArgsDefault;
 
   process.env.NODE_ENV = environment;
