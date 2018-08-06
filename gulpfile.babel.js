@@ -55,7 +55,7 @@ if (argv.main) {
   const conf = "site/config.toml";
 }
 
-const conf = "site/sinalocal.toml";
+const conf = "site/main.toml";
 
 // Hugo arguments
 const hugoArgsDefault = ["-d", "../dist", "-s", "site", "-v", "--config", conf];
