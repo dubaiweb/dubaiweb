@@ -1,5 +1,6 @@
 {{ $tit := (.Site.Data.sina.Title) }}
 {{ $des := (.Site.Data.sina.Description) }}
+{{ $des2 := (.Site.Data.sina.Description2) }}
 
 <div class="uk-section uk-section-default uk-section-medium">
   <div class="uk-container uk-container-small">
@@ -11,10 +12,11 @@
         <h3 class="uk-heading-primary uk-text-left lato-100">
           {{ $tit }}
         </h3>
-        <p class="uk-text-left">
-          {{ $des }}
-          {{.Inner}}
-        </p>
+        <p class="uk-text-left">{{ $des }}</p>
+        <h4 class="uk-text-left lato-100">
+          {{ $des2 }}{{.Inner}}
+        </h4>
+        <p class="nothing uk-text-lead uk-text-left">Sina</p>
       </div>
     </div>
   </div>

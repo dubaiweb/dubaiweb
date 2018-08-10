@@ -1,57 +1,55 @@
-<div id="home" class="header" uk-height-viewport>
-  <div class="uk-background-cover uk-light" uk-height-viewport uk-parallax="bgy: -200;" style="background-image: url(photos/tophint.jpg);">
-    <div class="uk-overlay uk-overlay-primary uk-sina-overlay uk-position-cover">
-      <div class="uk-flex uk-sina-up uk-flex-column uk-height-1-1">
-        <div class="uk-width-1">
-          <h1 class="uk-heading-hero nothing nsina uk-margin-top">Sina</h1>
+<div id="home" class="header">
+  <div class="uk-background-cover uk-light" uk-height-viewport uk-parallax="bgy: -200;" style="background: url(photos/tophint03.jpg);">
+    <div class="uk-flex uk-sina-up uk-flex-column">
+      <div class="uk-width-1 margin-sina">
+        <h1 class="nothing nsina">Sina</h1>
+      </div>
+      <div class="uk-flex uk-flex-row uk-flex-center">
+        <div class="uk-m">
+          <a href="" class="uk-icon-button" uk-icon="icon:whatsapp; ratio:0.9"></a>
+          <div uk-dropdown="pos:bottom-center; mode:click;">
+            <ul class="uk-nav uk-dropdown-nav">
+              <li class="uk-nav-header">WhatsUp</li>
+              <li class="uk-flex">
+                <a class="uk-width-1-2 uk-pa tcall" href="whatsapp://call?number=+41768046479">Call</a>
+                <a class="uk-width-1-2 uk-pa tsms" href="https://wa.me/+41768046479">Chat</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="uk-flex uk-flex-row uk-flex-center">
-            <div class="uk-m">
-              <a href="" class="uk-icon-button" uk-icon="icon:whatsapp; ratio:0.9"></a>
-              <div uk-dropdown="pos:bottom-center; mode:click;">
-                <ul class="uk-nav uk-dropdown-nav">
-                  <li class="uk-nav-header">WhatsUp</li>
-                  <li class="uk-flex">
-                    <a class="uk-width-1-2 uk-pa tcall" href="whatsapp://call?number=+41768046479">Call</a>
-                    <a class="uk-width-1-2 uk-pa tsms" href="https://wa.me/+41768046479">Chat</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="uk-m">
-              <a href="" class="uk-bottom uk-icon-button" uk-icon="icon:receiver; ratio:1"></a>
-              <div uk-dropdown="pos:bottom-center; mode:click;">
-                <ul class="uk-nav uk-dropdown-nav">
-                  <li class="uk-nav-header">Mobilphone</li>
-                  <li class="uk-flex">
-                    <a class="uk-width-1-2 uk-pa tcall" href="tel:+41768046479">Call</a>
-                    <a class="uk-width-1-2 uk-pa tsms" href="sms:+41768046479">SMS</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="uk-m">
-              <a href="" class="uk-icon-button" uk-icon="icon:mail; ratio:1"></a>
-              <div uk-dropdown="pos:bottom-center; mode:click;">
-                <ul class="uk-nav uk-dropdown-nav">
-                  <li class="uk-nav-header">Email</li>
-                  <li class="uk-flex">
-                    <a class="uk-width-1-1 uk-pa etsms" href="mailto:sina080818@gmail.com">open mail</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
+        <div class="uk-m">
+          <a href="" class="uk-bottom uk-icon-button" uk-icon="icon:receiver; ratio:1"></a>
+          <div uk-dropdown="pos:bottom-center; mode:click;">
+            <ul class="uk-nav uk-dropdown-nav">
+              <li class="uk-nav-header">Mobilphone</li>
+              <li class="uk-flex">
+                <a class="uk-width-1-2 uk-pa tcall" href="tel:+41768046479">Call</a>
+                <a class="uk-width-1-2 uk-pa tsms" href="sms:+41768046479">SMS</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="uk-position-bottom-center uk-position-large">
-          <a href="#nav" uk-icon="icon:chevron-down; ratio:3" uk-scroll></a>
+        <div class="uk-m">
+          <a href="" class="uk-icon-button" uk-icon="icon:mail; ratio:1"></a>
+          <div uk-dropdown="pos:bottom-center; mode:click;">
+            <ul class="uk-nav uk-dropdown-nav">
+              <li class="uk-nav-header">Email</li>
+              <li class="uk-flex">
+                <a class="uk-width-1-1 uk-pa etsms" href="mailto:sina080818@gmail.com">open mail</a>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
+      <div class="uk-position-bottom-center uk-position-large">
+        <a href="#nav" uk-icon="icon:chevron-down; ratio:3" uk-scroll></a>
       </div>
     </div>
   </div>
 </div>
 
-<div id="nav" class="nav-top uk-hidden@s" uk-sticky="show-on-up:true; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky;">
-  <nav class="uk-navbar uk-navbar-container" uk-navbar>
+<div class="sinnav nav-top uk-hidden@s" uk-sticky="show-on-up:true; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; animation: uk-animation-slide-top; bottom: true">
+  <nav id="nav" class="uk-navbar uk-navbar-container" uk-navbar>
     <div class="uk-navbar-left">
       <ul class="uk-iconnav">
           <li><a href="#home" uk-icon="icon: home; ratio:1.23" uk-scroll></a></li>
@@ -85,7 +83,7 @@
   </nav>
 </div>
 
-<div id="nav" class="nav-top uk-visible@s" uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent">
+<div id="nav" class="nav-top uk-visible@s" uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky;">
   <nav class="uk-navbar uk-navbar-container uk-background-default" uk-navbar>
     <div class="uk-navbar-center">
       <ul class="uk-navbar-nav" uk-scrollspy-nav="closest:li; scroll:true">

@@ -8,10 +8,6 @@ async function getComponent() {
   return element;
 }
 
-getComponent().then(component => {
-  document.body.appendChild(component);
-});
-
 import UIkit from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons';
 
