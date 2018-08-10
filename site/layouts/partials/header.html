@@ -1,38 +1,104 @@
-<div id="top" class="header" uk-height-viewport>
-  <div class="uktop uk-section uk-section-xsmall">
-    <div class="uk-container">
-      <h1 class="uk-heading-primary nothing">Isabella</h1>
-    </div>
-  </div>
-
-  <div class="nav-top" uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent">
-    <nav class="uk-navbar uk-navbar-container uk-background-default" uk-navbar>
-      <div class="uk-navbar-center">
-        <ul class="uk-navbar-nav" uk-scrollspy-nav="closest: li; scroll: true">
-          <li class="uk-active">
-            <a href="#top" uk-scroll>Home</a>
-          </li>
-          <li>
-            <a href="#gallery" uk-scroll>Gallery</a>
-          </li>
-          <li>
-            <a href="#travel" uk-scroll>Travelguide</a>
-          </li>
-          <li>
-            <a href="#end" uk-scroll>Contact</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </div>
-
-  <div class="uk-section uk-padding-remove uk-position-relative">
-    <div class="uk-background-cover uk-light" uk-height-viewport="offset-top: true" uk-parallax="bgy: -200;" style="background-image: url(images/girl-01.jpg);">
-      <div class="uk-overlay uk-overlay-default uk-position-cover"  uk-parallax="background-color:rgba(255,255,255,0.7),rgba(255,255,255,0.10)"></div>
-      <div class="uk-container logo-h">
-        <div class="uk-position-center uk-flex uk-flex-column">
+<div id="home" class="header" uk-height-viewport>
+  <div class="uk-background-cover uk-light" uk-height-viewport uk-parallax="bgy: -200;" style="background-image: url(photos/tophint.jpg);">
+    <div class="uk-overlay uk-overlay-primary uk-sina-overlay uk-position-cover">
+      <div class="uk-flex uk-sina-up uk-flex-column uk-height-1-1">
+        <div class="uk-width-1">
+          <h1 class="uk-heading-hero nothing nsina uk-margin-top">Sina</h1>
+        </div>
+        <div class="uk-flex uk-flex-row uk-flex-center">
+            <div class="uk-m">
+              <a href="" class="uk-icon-button" uk-icon="icon:whatsapp; ratio:0.9"></a>
+              <div uk-dropdown="pos:bottom-center; mode:click;">
+                <ul class="uk-nav uk-dropdown-nav">
+                  <li class="uk-nav-header">WhatsUp</li>
+                  <li class="uk-flex">
+                    <a class="uk-width-1-2 uk-pa tcall" href="whatsapp://call?number=+41768046479">Call</a>
+                    <a class="uk-width-1-2 uk-pa tsms" href="https://wa.me/+41768046479">Chat</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="uk-m">
+              <a href="" class="uk-bottom uk-icon-button" uk-icon="icon:receiver; ratio:1"></a>
+              <div uk-dropdown="pos:bottom-center; mode:click;">
+                <ul class="uk-nav uk-dropdown-nav">
+                  <li class="uk-nav-header">Mobilphone</li>
+                  <li class="uk-flex">
+                    <a class="uk-width-1-2 uk-pa tcall" href="tel:+41768046479">Call</a>
+                    <a class="uk-width-1-2 uk-pa tsms" href="sms:+41768046479">SMS</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="uk-m">
+              <a href="" class="uk-icon-button" uk-icon="icon:mail; ratio:1"></a>
+              <div uk-dropdown="pos:bottom-center; mode:click;">
+                <ul class="uk-nav uk-dropdown-nav">
+                  <li class="uk-nav-header">Email</li>
+                  <li class="uk-flex">
+                    <a class="uk-width-1-1 uk-pa etsms" href="mailto:sina080818@gmail.com">open mail</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </div>
+        <div class="uk-position-bottom-center uk-position-large">
+          <a href="#nav" uk-icon="icon:chevron-down; ratio:3" uk-scroll></a>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div id="nav" class="nav-top uk-hidden@s" uk-sticky="show-on-up:true; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky;">
+  <nav class="uk-navbar uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-left">
+      <ul class="uk-iconnav">
+          <li><a href="#home" uk-icon="icon: home; ratio:1.23" uk-scroll></a></li>
+          <li><a href="#gallery" uk-icon="icon: image; ratio:1.23" uk-scroll></a></li>
+          <li><a href="#end" uk-icon="icon: arrow-down; ratio:1.23" uk-scroll></a></li>
+      </ul>
+    </div>
+    <div class="uk-navbar-right">
+      <a href="#" class="uk-navbar-toggle" uk-navbar-toggle-icon uk-toggle="target: #offcanvas-flip"></a>
+    </div>
+    <div id="offcanvas-flip" uk-offcanvas="mode: slide; flip: true; overlay: true">
+      <div class="uk-offcanvas-bar uk-flex uk-flex-column">
+        <div class="uk-flex">
+           <button class="uk-offcanvas-close" type="button" uk-close></button>
+        </div>
+        <div class="uk-flex uk-flex-center uk-margin-auto-vertical z-1001">
+          <ul class="uk-nav-default uk-width-auto uk-text-left uk-list-divider" uk-scrollspy-nav="closest:li; scroll:true"  uk-nav>
+            {{ $currentPage := . }}
+            {{ range .Site.Menus.global }}
+              <li>
+                <a href="{{ .URL }}">
+                  {{ .Pre }}
+                  <span>{{ .Name }}</span>
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div id="nav" class="nav-top uk-visible@s" uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent">
+  <nav class="uk-navbar uk-navbar-container uk-background-default" uk-navbar>
+    <div class="uk-navbar-center">
+      <ul class="uk-navbar-nav" uk-scrollspy-nav="closest:li; scroll:true">
+        {{ $currentPage := . }}
+        {{ range .Site.Menus.global }}
+          <li>
+            <a href="{{ .URL }}">
+              {{ .Pre }}
+              <span>{{ .Name }}</span>
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+  </nav>
 </div>

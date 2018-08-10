@@ -22,8 +22,6 @@ import newer from "gulp-newer";
 import rename from "gulp-rename";
 import notify from "gulp-notify";
 
-var argv  = require('minimist')(process.argv);
-
 const browserSync = BrowserSync.create();
 
 const processors = [
@@ -43,22 +41,10 @@ const imgOpt = [
 const imgSrc = './src/photos/**';
 const imgDest = './site/static/photos';
 
-if (argv.main) {
-  const conf = "site/main.toml";
-} else if (argv.mainl) {
-  const conf = "site/mainlocal.toml";
-} else if (argv.sina) {
-  const conf = "site/sina.toml";
-} else if (argv.sinal) {
-  const conf = "site/sinalocal.toml";
-} else {
-  const conf = "site/config.toml";
-}
-
-const conf = "site/sinalocal.toml";
+const artist = "site/sina.toml";
 
 // Hugo arguments
-const hugoArgsDefault = ["-d", "../dist", "-s", "site", "-v", "--config", conf];
+const hugoArgsDefault = ["-d", "../dist", "-s", "site", "-v", "--config", artist];
 const hugoArgsPreview = ["--buildDrafts", "--buildFuture"];
 
 // Development tasks
@@ -77,14 +63,14 @@ gulp.task("css", () => (
   gulp.src("./src/css/*.css")
     .pipe(sourcemaps.init())
     .pipe(postcss(processors))
-    .pipe(nano())
+    // .pipe(nano())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest("./dist/css"))
     .pipe(browserSync.stream())
 ));
 
 gulp.task('sass', () => (
-  gulp.src('./src/css/site.scss')
+  gulp.src('./src/css/uikit/swissness.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./src/css/imports'))
 ));
@@ -125,14 +111,12 @@ function runServer() {
   });
   gulp.watch("./src/js/**/*.js", ["js"]);
   gulp.watch("./src/css/**/*.css", ["css"]);
-  gulp.watch("./src/css/**/**/*.scss", ["sass"]);
+  gulp.watch("./src/css/uikit/**/*.scss", ["sass"]);
   gulp.watch("./src/fonts/**/*", ["fonts"]);
-  gulp.watch(imgSrc, ["img"]);
   gulp.watch("./site/**/*", ["hugo"]);
 }
 
 function buildSite(cb, options, environment = "development") {
-
   const args = options ? hugoArgsDefault.concat(options) : hugoArgsDefault;
 
   process.env.NODE_ENV = environment;

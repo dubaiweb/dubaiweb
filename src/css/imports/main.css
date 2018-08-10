@@ -2,6 +2,10 @@
   height: 100%;
 }
 
+.header {
+  z-index: 0;
+}
+
 .lato-100 {
   font-family: 'Lato', sans-serif;
   font-weight: 100;
@@ -58,6 +62,43 @@ p > a:hover {
   left: 0;
 }
 
+.uk-dropdown:before {
+  @util triangle(10px, #f8f8f8, up);
+  position: absolute;
+  content: "";
+  top: -10px;
+  left: 43%;
+}
+
+.uk-dropdown-nav > li > a {
+  color: red;
+}
+
+.uk-nav > li > a {
+  padding: 10px 0;
+}
+
+.tcall {
+  box-shadow: inset -5px 5px 3px -6px rgba(0,0,0,0.3);
+}
+
+.tsms {
+  box-shadow: inset 5px 5px 3px -6px rgba(0,0,0,0.3);
+}
+
+.etsms {
+  box-shadow: inset 5px 5px 3px -6px rgba(0,0,0,0.3);
+}
+
+.uk-light .uk-icon-button:active,
+.uk-light .uk-icon-button:focus {
+  background-color: red;
+}
+
+.uk-m {
+  margin: 0 10px;
+}
+
 .uk-navbar-nav > li:hover > a::before,
 .uk-navbar-nav > li.uk-active > a::before {
   right: 0;
@@ -71,3 +112,36 @@ p > a:hover {
 .slidex .uk-box-shadow-large {
     box-shadow: 0 14px 25px rgba(0, 0, 0, 0.49);
 }
+
+.uk-sina-overlay {
+  background: rgb(255,255,255, 0.3);
+  background: linear-gradient(0deg, rgba(255,255,255,0.75) 0%, rgba(255,10,10,0.5) 100%);
+  opacity: 0.8;
+}
+
+.uk-icon-button {
+  height: 42px;
+  width: 42px;
+}
+
+.uk-light .uk-icon-button {
+  background-color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.8);
+}
+
+.overnav {
+  opacity: 0.7;
+}
+
+.z-1001 {
+  z-index: 1001;
+}
+
+.uk-grid-divider.uk-grid-stack > .uk-grid-margin::before {
+  border-width: 0px;
+}
+
+.uk-iconnav {
+  margin-left: 0px;
+}
+

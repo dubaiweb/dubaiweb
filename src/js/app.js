@@ -12,8 +12,7 @@ getComponent().then(component => {
   document.body.appendChild(component);
 });
 
-import UIkit from '../uikit/dist/js/uikit.js';
-import Icons from '../uikit/dist/js/uikit-icons.js';
+import UIkit from 'uikit';
+import Icons from 'uikit/dist/js/uikit-icons';
 
 UIkit.use(Icons);
-

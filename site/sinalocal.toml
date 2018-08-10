@@ -2,10 +2,56 @@ baseurl = "/"
 title = "Sina Dubai Massage"
 languageCode = "en-us"
 languageLang = "en"
+enableEmoji = true
 
 disableKinds = ["RSS", "taxonomy", "taxonomyTerm"]
 
-buildDrafts = true
-enableEmoji = true
-enableGitInfo = true
-enableRobotsTXT = true
+[blackfriday]
+  backslashLineBreak = true
+  spaceHeaders = true
+  hrefTargetBlank = true
+  angledQuotes = true
+  latexDashes = true
+  extensions = ["laxHtmlBlocks"]
+
+[menu]
+
+  [[menu.global]]
+    identifier = "home"
+    name = "Home"
+    pre = "<span class='uk-margin-small-right' uk-icon='icon:home'></span>"
+    url = "#home"
+    weight = 100
+
+  [[menu.global]]
+    identifier = "gallery"
+    name = "Gallery"
+    pre = "<span class='uk-margin-small-right' uk-icon='icon:image'></span>"
+    url = "#gallery"
+    weight = 110
+
+  [[menu.global]]
+    identifier = "service"
+    name = "Service"
+    pre = "<span class='uk-margin-small-right' uk-icon='icon:heart'></span>"
+    url = "#service"
+    weight = 120
+
+  [[menu.global]]
+    identifier = "price"
+    name = "Price"
+    pre = "<span class='uk-margin-small-right' uk-icon='icon:heart'></span>"
+    url = "#price"
+    weight = 130
+
+  [[menu.global]]
+    identifier = "contact"
+    name = "Contact"
+    pre = "<span class='uk-margin-small-right' uk-icon='icon:user'></span>"
+    url = "#contact"
+    weight = 140
+
+[params]
+  artist = "Sina"
+  land = "Vietnam"
+  twitter = "@charmingsina"

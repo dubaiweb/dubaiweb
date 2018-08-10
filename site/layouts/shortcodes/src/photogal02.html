@@ -1,0 +1,27 @@
+{{ $dir := .Get "dir" }}
+{{ $galname := .Get "galname" }}
+{{ $galleryName := .Get "galleryName" }}
+{{ $data := .Get "data_file" }}
+
+<section class="foto-gallery">
+
+  <h3>{{ $galleryName }}</h3>
+  <div class="gallery gal02 tooltip is-tooltip-bottom" data-tooltip="klicke für Vergrösserung" itemscope itemtype="https://schema.org/ImageGallery">
+    {{ with ( index .Page.Site.Data.galleries $galname ) }}
+     {{range .galleryItems }}
+     {{ $item := . }}
+      <figure class="gal02" itemprop="associatedMedia" itemscope itemtype="https://schema.org/ImageObject">
+        <a href="{{ $item.large.path }}" itemprop="contentUrl" data-size="{{ $item.large.dataSize }}" data-medium-url="{{ $item.small.path }}" data-medium-size="{{ $item.small.dataSize }}">
+          <img src="{{ $item.thumb.path }}" alt="{{ $item.alt }}" data-size="{{ $item.thumb.dataSize }}" itemprop="thumbnail" />
+
+          <figcaption itemprop="caption description">
+            <div class="mtit"> {{ $item.titel }} </div>
+            <div class="mcap"> {{ $item.caption }} </div>
+          </figcaption>
+        </a>
+      </figure>
+     {{ end }}
+   {{ end }}
+  </div>
+
+</section>
