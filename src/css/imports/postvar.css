@@ -1,0 +1,20 @@
+:root {
+  --rot: #c70000;
+}
+
+--small: 40rem;
+--medium: 60rem;
+--large: 75rem;
+--xlarge: 100rem;
+
+@custom-media --small (width >= 40rem);
+@custom-media --medium (width >= 60rem);
+@custom-media --large (width >= 75rem);
+@custom-media --xlarge (width >= 100rem);
+
+/*@custom-media --xsmall-max (width >= (var(--small) - 1));
+@custom-media --small-max (width >= (var(--medium) - 1));
+@custom-media --medium-max (width >= (var(--large) - 1));
+@custom-media --large-max (width >= (var(--xlarge) - 1));*/
+
+@custom-selector :--heading h1, h2, h3, h4, h5, h6;

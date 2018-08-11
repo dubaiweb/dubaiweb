@@ -1,4 +1,4 @@
-baseurl = "https://sina.dubaierotic.com"
+baseurl = "https://sina.dubaierotic.com/"
 title = "Sina Dubai Massage"
 languageCode = "en-us"
 languageLang = "en"
@@ -8,10 +8,10 @@ disableKinds = ["RSS", "taxonomy", "taxonomyTerm"]
 
 [blackfriday]
   backslashLineBreak = true
-  spaceHeaders = true
-  hrefTargetBlank = true
+  spaceHeaders = false
+  hrefTargetBlank = false
   angledQuotes = true
-  latexDashes = true
+  latexDashes = false
   extensions = ["laxHtmlBlocks"]
 
 [menu]
@@ -31,17 +31,17 @@ disableKinds = ["RSS", "taxonomy", "taxonomyTerm"]
     weight = 110
 
   [[menu.global]]
-    identifier = "service"
-    name = "Service"
+    identifier = "infos"
+    name = "Infos"
     pre = "<span class='uk-margin-small-right' uk-icon='icon:heart'></span>"
-    url = "#service"
+    url = "#infos"
     weight = 120
 
   [[menu.global]]
-    identifier = "price"
-    name = "Price"
+    identifier = "prices"
+    name = "Prices"
     pre = "<span class='uk-margin-small-right' uk-icon='icon:heart'></span>"
-    url = "#price"
+    url = "#prices"
     weight = 130
 
   [[menu.global]]

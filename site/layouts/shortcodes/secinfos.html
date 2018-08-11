@@ -1,0 +1,42 @@
+{{ $Name := (.Site.Data.sina.ArtistName) }}
+{{ $Gender := (.Site.Data.sina.Gender) }}
+{{ $Orientation := (.Site.Data.sina.Orientation) }}
+{{ $Languages := (.Site.Data.sina.Languages) }}
+{{ $Nationality := (.Site.Data.sina.Nationality) }}
+{{ $Height := (.Site.Data.sina.Height) }}
+{{ $Age := (.Site.Data.sina.Age) }}
+{{ $Bust := (.Site.Data.sina.Bust) }}
+{{ $Hair := (.Site.Data.sina.Hair) }}
+{{ $Shaved := (.Site.Data.sina.Shaved) }}
+{{ $Smoking := (.Site.Data.sina.Smoking) }}
+{{ $Twitter := (.Site.Data.sina.Twitter) }}
+{{ $Ethnicity := (.Site.Data.sina.Ethnicity) }}
+
+<div id="infos" class="uk-position-relative" style="overflow: hidden;">
+  <div class="uk-section uk-background-cover" uk-parallax="bgy:200" style="background-image: url(photos/infosback02.jpg);">
+    <div class="uk-container uk-container-small uk-text-left">
+      <h1 class="uk-heading-primary uk-text-left uk-red lato-100 uk-light uk-text-bold">Personal Infos{{.Inner}}</h1>
+      <div class="uk-margin-medium-top@s uk-grid-expand" uk-grid>
+        <div class="uk-width-1-2@s">
+          <ul class="uk-list uk-list-large uk-list-striped">
+            <li class="uk-flex"><span class="uk-text-bold uk-margin-small-right">Name:</span><span class="uk-flex-1">{{ $Name }}</span></li>
+            <li class="uk-flex"><span class="uk-text-bold uk-margin-small-right">Gender:</span><span class="uk-flex-1">{{ $Gender }}</span></li>
+            <li class="uk-flex"><span class="uk-text-bold uk-margin-small-right">Ethnicity:</span><span class="uk-flex-1">{{ $Ethnicity }}</span></li>
+            <li class="uk-flex"><span class="uk-text-bold uk-margin-small-right">Nationality:</span><span class="uk-flex-1">{{ $Nationality }}</span></li>
+            <li class="uk-flex"><span class="uk-text-bold uk-margin-small-right">Languages:</span><span class="uk-flex-1">{{ $Languages }}</span></li>
+          </ul>
+        </div>
+        <div class="uk-width-1-2@s uk-list-divider uk-margin-remove-top">
+          <ul class="uk-list uk-list-large uk-list-striped">
+            <li class="uk-flex"><span class="uk-text-bold uk-margin-small-right">Height:</span><span class="uk-flex-1">{{ $Height }}</span></li>
+            <li class="uk-flex"><span class="uk-text-bold uk-margin-small-right">Age:</span><span class="uk-flex-1">{{ $Age }}</span></li>
+            <li class="uk-flex"><span class="uk-text-bold uk-margin-small-right">Hair:</span><span class="uk-flex-1">{{ $Hair }}</span></li>
+            <li class="uk-flex"><span class="uk-text-bold uk-margin-small-right">Shaved:</span><span class="uk-flex-1">{{ $Shaved }}</span></li>
+            <li class="uk-flex"><span class="uk-text-bold uk-margin-small-right">Bust:</span><span class="uk-flex-1">{{ $Bust }}</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

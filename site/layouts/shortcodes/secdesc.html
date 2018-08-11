@@ -2,21 +2,21 @@
 {{ $des := (.Site.Data.sina.Description) }}
 {{ $des2 := (.Site.Data.sina.Description2) }}
 
-<div class="uk-section uk-section-default uk-section-medium">
+<div class="uk-section uk-section-default uk-section-small uk-padding-large@m">
   <div class="uk-container uk-container-small">
     <div class="uk-grid-large@s uk-grid-divider uk-position-relative secdesc-b" uk-grid>
       <div class="uk-width-1-3@s uk-position-relative uk-flex-last@s" uk-scrollspy@s="cls: uk-animation-slide-right; repeat: true">
         <img class="uk-border-circle" src='{{ .Get "pics" }}' height="180" width="180" alt="Border circle">
       </div>
       <div class="uk-width-2-3@s" uk-scrollspy@s="cls: uk-animation-slide-left; repeat: true">
-        <h3 class="uk-heading-primary uk-text-left lato-100">
+        <h2 class="uk-heading-primary uk-text-left lato-100">
           {{ $tit }}
-        </h3>
+        </h2>
         <p class="uk-text-left">{{ $des }}</p>
-        <h4 class="uk-text-left lato-100">
+        <h4 class="uk-text-left lato-100 uk-margin-remove-top">
           {{ $des2 }}{{.Inner}}
         </h4>
-        <p class="nothing uk-text-lead uk-text-left">Sina</p>
+        <h1 class="nothing uk-text-left uk-margin-remove uk-text-primary">Sina</h1>
       </div>
     </div>
   </div>

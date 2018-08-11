@@ -14,7 +14,7 @@
   "Height": "156",
   "Age": "24",
   "Bust": "Large",
-  "Hair color": "Brunette",
+  "Hair": "Brunette",
   "Shaved": "Yes",
   "Smoking": "no-smoke",
   "Twitter": "@sina",
@@ -47,8 +47,8 @@
   ],
   "IncallsHour": "200",
   "OutcallsHour": "300",
-  "Travelguide Day": "600",
-  "Travelguide Overnight": "1200"
+  "TravelguideDay": "600",
+  "TravelguideOvernight": "1200"
 }
 
 

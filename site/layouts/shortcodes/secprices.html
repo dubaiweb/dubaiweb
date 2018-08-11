@@ -1,0 +1,29 @@
+{{ $IncallsHour := (.Site.Data.sina.IncallsHour) }}
+{{ $OutcallsHour := (.Site.Data.sina.OutcallsHour) }}
+{{ $TravelguideDay := (.Site.Data.sina.TravelguideDay) }}
+{{ $TravelguideOvernight := (.Site.Data.sina.TravelguideOvernight) }}
+
+<div id="prices" class="uk-section uk-section-muted uk-section-large">
+  <div class="uk-container uk-container-small">
+    <div class="uk-child-width-1-3@m uk-grid-large uk-grid-match uk-padding-large" uk-grid>
+      <div> {{.Inner}}
+        <div class="uk-card uk-card-default uk-card-body">
+          <h3 class="uk-card-title">InCalls</h3>
+          <p>{{ $IncallsHour }} USD / hour</p>
+        </div>
+      </div>
+      <div>
+        <div class="uk-card uk-card-default uk-card-body">
+          <h3 class="uk-card-title">OutCalls</h3>
+          <p>{{ $OutcallsHour }} USD / hour</p>
+        </div>
+      </div>
+      <div>
+        <div class="uk-card uk-card-default uk-card-body">
+          <h3 class="uk-card-title">Travelguide</h3>
+          <p>Overnight: {{ $TravelguideOvernight }} USD</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

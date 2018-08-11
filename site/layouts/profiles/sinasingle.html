@@ -10,7 +10,9 @@
   <body>
     <div class="uk-offcanvas-content">
       {{ block "header" . }}{{ partial "header" . }}{{end}}
-      {{ block "main" . }}{{ .Content }}{{end}}
+      {{ block "main" . }}
+        {{ .Content | replaceRE "<p><div" "<div" | replaceRE "(?s:</div>\n?</p>)" "</div>" | safeHTML }}
+      {{end}}
       {{ block "footer" . }}{{ partial "footer" . }}{{end}}
     </div>
     <script src="app.bundle.js"></script>

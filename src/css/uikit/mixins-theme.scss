@@ -1030,8 +1030,9 @@
     }
 
 }
+
 @mixin hook-iconnav(){}
-@mixin hook-iconnav-item(){}
+@mixin hook-iconnav-item(){padding-right: 15px;}
 @mixin hook-iconnav-item-hover(){}
 @mixin hook-iconnav-item-active(){}
 @mixin hook-iconnav-misc(){}
@@ -1562,12 +1563,23 @@
 @mixin hook-list-divider(){}
 @mixin hook-list-striped(){
 
+    margin-bottom: 12px;
+    padding: 3px 9px;
+
     &:nth-of-type(odd) {
-        border-top: $list-striped-border-width solid $list-striped-border;
-        border-bottom: $list-striped-border-width solid $list-striped-border;
+        background: rgba(255,255,255, 0.8);
+        // border-top: $list-striped-border-width solid $list-striped-border;
+        // border-bottom: $list-striped-border-width solid $list-striped-border;
+    }
+
+    &:nth-of-type(even) {
+        background: rgba(255,255,255, 0.65);
+        // border-top: $list-striped-border-width solid $list-striped-border;
+        // border-bottom: $list-striped-border-width solid $list-striped-border;
     }
 
 }
+
 @mixin hook-list-bullet(){}
 @mixin hook-list-misc(){}
 @mixin hook-inverse-list-divider(){}
@@ -1579,6 +1591,7 @@
     }
 
 }
+
 @mixin hook-inverse-list-bullet(){}
 @mixin hook-margin-misc(){}
 @mixin hook-marker(){
@@ -1688,6 +1701,10 @@
     /*
      * Navbar
      */
+
+    .uk-navbar-container {
+        box-shadow: 0px 2px 2px 0 rgba(8, 9, 11, 0.15);
+    }
 
     .uk-navbar-container > .uk-container .uk-navbar-left {
         margin-left: (-$navbar-nav-item-padding-horizontal);

@@ -1,60 +1,62 @@
 <div id="home" class="header">
-  <div class="uk-background-cover uk-light" uk-height-viewport uk-parallax="bgy: -200;" style="background: url(photos/tophint03.jpg);">
-    <div class="uk-flex uk-sina-up uk-flex-column">
-      <div class="uk-width-1 margin-sina">
-        <h1 class="nothing nsina">Sina</h1>
+  <div class="uk-background-cover uk-light" uk-height-viewport uk-parallax="bgy: -200;" style="background: url(photos/tophint04.jpg);">
+    <div class="uk-flex uk-flex-column .uk-flex-stretch uk-overlay uk-overlay-primary uk-sina-up sinaback" uk-height-viewport>
+      <div class="uk-section uk-section-xsmall uk-flex uk-flex-column" uk-sticky="bottom: #arrow" uk-parallax="opacity: 1,0; viewport: 0.5">
+        <div class="uk-container uk-container-small uk-flex-center uk-flex-middle uk-margin-small-bottom">
+          <h1 class="uk-flex nothing nsina uk-text-center">Sina</h1>
+        </div>
+        <div class="uk-container uk-container-small uk-margin-small-top uk-width-1-1 uk-width-1-2@m uk-width-1-3@l uk-flex uk-flex-row uk-flex-around ico-sina">
+          <div class="uk-m">
+            <a href="" class="uk-icon-button bsina" uk-icon="icon:whatsapp; ratio:0.9"></a>
+            <div uk-dropdown="pos:bottom-center; mode:click;">
+              <ul class="uk-nav uk-dropdown-nav">
+                <li class="uk-nav-header">WhatsUp</li>
+                <li class="uk-flex">
+                  <a class="uk-width-1-2 uk-pa tcall" href="whatsapp://call?number=971522586593‬">Call</a>
+                  <a class="uk-width-1-2 uk-pa tsms" href="https://wa.me/971522586593‬">Chat</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="uk-m">
+            <a href="" class="uk-bottom uk-icon-button bsina" uk-icon="icon:receiver; ratio:1.05"></a>
+            <div uk-dropdown="pos:bottom-center; mode:click;">
+              <ul class="uk-nav uk-dropdown-nav">
+                <li class="uk-nav-header">Mobilphone</li>
+                <li class="uk-flex">
+                  <a class="uk-width-1-2 uk-pa tcall" href="tel:+971522586593‬">Call</a>
+                  <a class="uk-width-1-2 uk-pa tsms" href="sms:+971522586593‬">SMS</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="uk-m">
+            <a href="" class="uk-icon-button bsina" uk-icon="icon:mail; ratio:1.05"></a>
+            <div uk-dropdown="pos:bottom-center; mode:click;">
+              <ul class="uk-nav uk-dropdown-nav">
+                <li class="uk-nav-header">Email</li>
+                <li class="uk-flex">
+                  <a class="uk-width-1-1 uk-pa etsms" href="mailto:sina080818@gmail.com">open mail</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="uk-flex uk-flex-row uk-flex-center">
-        <div class="uk-m">
-          <a href="" class="uk-icon-button" uk-icon="icon:whatsapp; ratio:0.9"></a>
-          <div uk-dropdown="pos:bottom-center; mode:click;">
-            <ul class="uk-nav uk-dropdown-nav">
-              <li class="uk-nav-header">WhatsUp</li>
-              <li class="uk-flex">
-                <a class="uk-width-1-2 uk-pa tcall" href="whatsapp://call?number=971522586593‬">Call</a>
-                <a class="uk-width-1-2 uk-pa tsms" href="https://wa.me/971522586593‬">Chat</a>
-              </li>  ‭
-            </ul>
-          </div>
-        </div>
-        <div class="uk-m">
-          <a href="" class="uk-bottom uk-icon-button" uk-icon="icon:receiver; ratio:1"></a>
-          <div uk-dropdown="pos:bottom-center; mode:click;">
-            <ul class="uk-nav uk-dropdown-nav">
-              <li class="uk-nav-header">Mobilphone</li>
-              <li class="uk-flex">
-                <a class="uk-width-1-2 uk-pa tcall" href="tel:+971522586593‬">Call</a>
-                <a class="uk-width-1-2 uk-pa tsms" href="sms:+971522586593‬">SMS</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="uk-m">
-          <a href="" class="uk-icon-button" uk-icon="icon:mail; ratio:1"></a>
-          <div uk-dropdown="pos:bottom-center; mode:click;">
-            <ul class="uk-nav uk-dropdown-nav">
-              <li class="uk-nav-header">Email</li>
-              <li class="uk-flex">
-                <a class="uk-width-1-1 uk-pa etsms" href="mailto:sina080818@gmail.com">open mail</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="uk-position-bottom-center uk-position-large">
-        <a href="#nav" uk-icon="icon:chevron-down; ratio:3" uk-scroll></a>
+      <div id="arrow" class="uk-section-small uk-light uk-position-bottom-center uk-flex uk-flex-middle uk-flex-center" uk-parallax="opacity: 0.5,0; viewport: 0.5">
+        <a href="#nav" uk-icon="icon:chevron-down; ratio:2.5" uk-scroll></a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="sinnav nav-top uk-hidden@s" uk-sticky="show-on-up:true; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; animation: uk-animation-slide-top; bottom: true">
-  <nav id="nav" class="uk-navbar uk-navbar-container" uk-navbar>
+<div  id="nav" class="sinnav nav-top uk-hidden@s" uk-sticky="show-on-up:true; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; animation: uk-animation-slide-top; bottom: true">
+  <nav class="uk-navbar uk-navbar-container" uk-navbar>
     <div class="uk-navbar-left">
       <ul class="uk-iconnav">
-          <li><a href="#home" uk-icon="icon: home; ratio:1.23" uk-scroll></a></li>
-          <li><a href="#gallery" uk-icon="icon: image; ratio:1.23" uk-scroll></a></li>
-          <li><a href="#end" uk-icon="icon: arrow-down; ratio:1.23" uk-scroll></a></li>
+          <li><a class="uk-light" href="#home" uk-icon="icon: home; ratio:1.11" uk-scroll></a></li>
+          <li><a class="uk-light" href="#gallery" uk-icon="icon: image; ratio:1.11" uk-scroll></a></li>
+          <li><a class="uk-light" href="#end" uk-icon="icon:chevron-down; ratio:1.11" uk-scroll></a></li>
       </ul>
     </div>
     <div class="uk-navbar-right">
@@ -70,9 +72,9 @@
             {{ $currentPage := . }}
             {{ range .Site.Menus.global }}
               <li>
-                <a href="{{ .URL }}">
+                <a class="uk-text-middle" href="{{ .URL }}">
                   {{ .Pre }}
-                  <span>{{ .Name }}</span>
+                  <span class="uk-text-middle">{{ .Name }}</span>
                 </a>
               </li>
             {{ end }}

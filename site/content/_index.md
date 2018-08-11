@@ -6,7 +6,8 @@ draft: false
 type: "profiles"
 layout: "sinasingle"
 ---
-
 {{< secdesc pics="photos/016.jpg" />}}
-
-{{< secgal >}}
+{{< secgal />}}
+{{< seccloud >}}
+{{< secinfos pics="images/burj.png" />}}
+{{< secprices />}}
