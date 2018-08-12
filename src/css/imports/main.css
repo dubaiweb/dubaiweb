@@ -1,3 +1,53 @@
+svg.sinalogo {
+  height: auto;
+  width: 100%;
+}
+
+:root {
+  --aweiss: color-mod(white alpha(80%));
+  --sweiss: color-mod(white alpha(90%));
+  --asw: gray(50);
+  --ssw: gray(50);
+}
+
+#logoschwarz {
+
+  path.letter {
+    fill: var(--asw);
+  }
+  path.sletter {
+    fill: var(--ssw);
+  }
+  path.flowback {
+    fill: gray(50);
+  }
+  path.flowgelb {
+    fill: #C90004;
+  }
+  path.flowrot {
+    fill: #FEFE0A;
+  }
+}
+
+#logoweiss {
+
+  path.letter {
+    fill: var(--aweiss);
+  }
+  path.sletter {
+    fill: var(--sweiss);
+  }
+  path.flowback {
+    fill: gray(80);
+  }
+  path.flowgelb {
+    fill: var(--rot);
+  }
+  path.flowrot {
+    fill: #FEFE0A;
+  }
+}
+
 .wrapper {
   height: 100%;
 }
