@@ -4018,7 +4018,7 @@ ul.uk-nav-sub {
      * Navbar
      */
 .uk-navbar-container {
-  box-shadow: 0px 2px 2px 0 rgba(8, 9, 11, 0.15); }
+  box-shadow: 0px 1px 1px 0 rgba(8, 9, 11, 0.1); }
 
 .uk-navbar-container > .uk-container .uk-navbar-left {
   margin-left: -15px;
