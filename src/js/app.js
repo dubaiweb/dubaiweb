@@ -12,3 +12,11 @@ import UIkit from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons';
 
 UIkit.use(Icons);
+
+var WebFont = require('webfontloader');
+
+WebFont.load({
+  google: {
+    families: ['Lato:100,300,400,300italic']
+  }
+});

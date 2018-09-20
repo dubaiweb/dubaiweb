@@ -90,6 +90,8 @@ p > a:hover {
   color: #000;
 }
 
+p:empty {display:none;}
+
 .uktop {
   border-bottom: 1px solid #E5E5E5;
 }
@@ -125,6 +127,13 @@ p > a:hover {
 
 h1.nsina {
   font-size: responsive 60px 120px;
+}
+
+.h1infos {
+  background: rgba(255,255,255, .8);
+  padding-left: 10px;
+  color: black;
+  mix-blend-mode: screen;
 }
 
 #prices.uk-section-large {

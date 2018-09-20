@@ -9,8 +9,8 @@ categories:
     - "sexy"
 date: "2018-08-01"
 draft: false
-type: "profiles"
-layout: "sina"
+type: "profiles/sina"
+layout: "sinasingle"
 ---
 
 {{ partial "sina.html" . }}

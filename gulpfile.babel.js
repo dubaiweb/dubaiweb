@@ -21,6 +21,7 @@ import imageResize from "gulp-image-resize";
 import newer from "gulp-newer";
 import rename from "gulp-rename";
 import notify from "gulp-notify";
+import responsive from "gulp-responsive";
 
 const browserSync = BrowserSync.create();
 
@@ -38,12 +39,17 @@ const imgOpt = [
   imagemin.optipng({optimizationLevel: 5})
 ];
 
-const imgSrc = './src/photos/**';
-const imgDest = './site/static/photos';
+const imgSrcP = './src/sina/hoch/*.jpg';
+const imgDestP = './site/static/sina/hoch';
+
+const imgSrcL = './src/sina/quer/*.jpg';
+const imgDestL = './site/static/sina/quer';
 
 const artist = "site/sina.toml";
 
+
 // Hugo arguments
+// const hugoArgsDefault = ["-d", "../dist", "-s", "site", "-v"];
 const hugoArgsDefault = ["-d", "../dist", "-s", "site", "-v", "--config", artist];
 const hugoArgsPreview = ["--buildDrafts", "--buildFuture"];
 
@@ -52,12 +58,12 @@ gulp.task("hugo", (cb) => buildSite(cb));
 gulp.task("hugo-preview", (cb) => buildSite(cb, hugoArgsPreview));
 
 // Run server tasks
-gulp.task("server", ["hugo", "css", "js", "fonts"], (cb) => runServer(cb));
-gulp.task("server-preview", ["hugo-preview", "css", "js", "fonts"], (cb) => runServer(cb));
+gulp.task("server", ["hugo", "css", "js"], (cb) => runServer(cb));
+gulp.task("server-preview", ["hugo-preview", "css", "js"], (cb) => runServer(cb));
 
 // Build/production tasks
-gulp.task("build", ["css", "js", "fonts"], (cb) => buildSite(cb, [], "production"));
-gulp.task("build-preview", ["css", "js", "fonts"], (cb) => buildSite(cb, hugoArgsPreview, "production"));
+gulp.task("build", ["css", "js"], (cb) => buildSite(cb, [], "production"));
+gulp.task("build-preview", ["css", "js"], (cb) => buildSite(cb, hugoArgsPreview, "production"));
 
 gulp.task("css", () => (
   gulp.src("./src/css/*.css")
@@ -89,19 +95,61 @@ gulp.task("js", (cb) => {
   });
 });
 
+gulp.task('picp', function() {
+  return gulp.src(imgSrcP)
+    .pipe(responsive({
+      '*.jpg': [{
+        width: 480,
+        rename: { suffix: '-375px' },
+      }, {
+        width: 600,
+        rename: { suffix: '-420px' },
+      }, {
+        width: 800,
+        rename: { suffix: '-640px' },
+      }, {
+        // Compress, strip metadata, and rename original image
+        rename: { suffix: '' },
+      }],
+    }, {
+      quality: 70,
+      progressive: true,
+      withMetadata: false,
+    }))
+    .pipe(gulp.dest(imgDestP));
+});
+
+gulp.task('picl', function() {
+  return gulp.src(imgSrcL)
+    .pipe(responsive({
+      // Resize all JPG images to three different sizes: 200, 500, and 630 pixels
+      '*.jpg': [{
+        width: 600,
+        rename: { suffix: '-420px' },
+      }, {
+        width: 1200,
+        rename: { suffix: '-800px' },
+      }, {
+        width: 1600,
+        rename: { suffix: '-1280px' },
+      }, {
+        // Compress, strip metadata, and rename original image
+        rename: { suffix: '' },
+      }],
+    }, {
+      quality: 70,
+      progressive: true,
+      withMetadata: false,
+    }))
+    .pipe(gulp.dest(imgDestL));
+});
+
 gulp.task('img', () =>
   gulp.src(imgSrc)
   // .pipe(newer(imgDest))
   .pipe(imagemin(imgOpt))
   .pipe(gulp.dest(imgDest))
 );
-
-gulp.task("fonts", () => (
-  gulp.src("./src/fonts/**/*")
-    .pipe(flatten())
-    .pipe(gulp.dest("./dist/fonts"))
-    .pipe(browserSync.stream())
-));
 
 function runServer() {
   browserSync.init({
@@ -112,7 +160,6 @@ function runServer() {
   gulp.watch("./src/js/**/*.js", ["js"]);
   gulp.watch("./src/css/**/*.css", ["css"]);
   gulp.watch("./src/css/uikit/**/*.scss", ["sass"]);
-  gulp.watch("./src/fonts/**/*", ["fonts"]);
   gulp.watch("./site/**/*", ["hugo"]);
 }
 
