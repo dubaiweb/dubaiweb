@@ -1,13 +1,31 @@
-svg.sinalogo {
-  height: auto;
-  width: 100%;
-}
-
 :root {
   --aweiss: color-mod(white alpha(80%));
   --sweiss: color-mod(white alpha(90%));
   --asw: gray(50);
   --ssw: gray(50);
+}
+
+svg.sinalogo {
+  height: auto;
+  width: 100%;
+}
+
+#logoweiss {
+  path.letter {
+    fill: color-mod(white alpha(80%));
+  }
+  path.sletter {
+    fill: color-mod(white alpha(90%));
+  }
+  path.flowback {
+    fill: gray(70);
+  }
+  path.flowgelb {
+    fill: var(--rot);
+  }
+  path.flowrot {
+    fill: #FEFE0A;
+  }
 }
 
 #logoschwarz {
@@ -23,25 +41,6 @@ svg.sinalogo {
   }
   path.flowgelb {
     fill: #C90004;
-  }
-  path.flowrot {
-    fill: #FEFE0A;
-  }
-}
-
-#logoweiss {
-
-  path.letter {
-    fill: var(--aweiss);
-  }
-  path.sletter {
-    fill: var(--sweiss);
-  }
-  path.flowback {
-    fill: gray(80);
-  }
-  path.flowgelb {
-    fill: var(--rot);
   }
   path.flowrot {
     fill: #FEFE0A;
