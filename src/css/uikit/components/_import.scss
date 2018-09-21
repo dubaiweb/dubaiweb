@@ -11,47 +11,47 @@
 @import "description-list.scss";
 @import "table.scss";
 @import "icon.scss";
-// @import "form-range.scss";
-// @import "form.scss"; // After: Icon, Form Range
+@import "form-range.scss";
+@import "form.scss"; // After: Icon, Form Range
 @import "button.scss";
 
 // Layout
 @import "section.scss";
 @import "container.scss";
 @import "grid.scss";
-// @import "tile.scss";
+@import "tile.scss";
 @import "card.scss";
 
 // Common
 @import "close.scss"; // After: Icon
-// @import "spinner.scss"; // After: Icon
+@import "spinner.scss"; // After: Icon
 @import "totop.scss"; // After: Icon
 @import "marker.scss"; // After: Icon
 @import "alert.scss"; // After: Close
 @import "badge.scss";
-// @import "label.scss";
+@import "label.scss";
 @import "overlay.scss"; // After: Icon
 @import "article.scss"; // After: Subnav
 @import "comment.scss"; // After: Subnav
-// @import "search.scss"; // After: Icon
+@import "search.scss"; // After: Icon
 
 // Navs
 @import "nav.scss";
 @import "navbar.scss"; // After: Card, Grid, Nav, Icon, Search
 @import "subnav.scss";
-// @import "breadcrumb.scss";
-// @import "pagination.scss";
-// @import "tab.scss";
+@import "breadcrumb.scss";
+@import "pagination.scss";
+@import "tab.scss";
 @import "slidenav.scss"; // After: Icon
 @import "dotnav.scss";
 @import "thumbnav.scss";
 
 // JavaScript
-// @import "accordion.scss";
-// @import "drop.scss"; // After: Card
-// @import "dropdown.scss"; // After: Card
-// @import "modal.scss"; // After: Close
-// @import "lightbox.scss"; // After: Close
+@import "accordion.scss";
+@import "modal.scss"; // After: Close
+@import "lightbox.scss"; // After: Close
+@import "drop.scss"; // After: Card
+@import "dropdown.scss"; // After: Card
 @import "slideshow.scss";
 @import "slider.scss";
 @import "sticky.scss";
@@ -65,11 +65,11 @@
 // Additional
 @import "iconnav.scss";
 @import "notification.scss";
-// @import "tooltip.scss";
-// @import "placeholder.scss";
-// @import "progress.scss";
-// @import "sortable.scss";
-// @import "countdown.scss";
+@import "tooltip.scss";
+@import "placeholder.scss";
+@import "progress.scss";
+@import "sortable.scss";
+@import "countdown.scss";
 
 // Utilities
 @import "animation.scss";
