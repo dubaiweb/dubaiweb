@@ -8031,429 +8031,156 @@
 
     core(UIkit);
 
-    var obj;
+    var Countdown = {
 
-    var containers = {};
+        mixins: [Class],
 
-    var Notification = {
+        attrs: true,
 
-        functional: true,
-
-        args: ['message', 'status'],
+        props: {
+            date: String,
+            clsWrapper: String
+        },
 
         data: {
-            message: '',
-            status: '',
-            timeout: 5000,
-            group: null,
-            pos: 'top-center',
-            clsClose: 'uk-notification-close',
-            clsMsg: 'uk-notification-message'
+            date: '',
+            clsWrapper: '.uk-countdown-%unit%'
         },
-
-        install: install$2,
-
-        created: function() {
-
-            if (!containers[this.pos]) {
-                containers[this.pos] = append(this.$container, ("<div class=\"uk-notification uk-notification-" + (this.pos) + "\"></div>"));
-            }
-
-            var container = css(containers[this.pos], 'display', 'block');
-
-            this.$mount(append(container,
-                ("<div class=\"" + (this.clsMsg) + (this.status ? (" " + (this.clsMsg) + "-" + (this.status)) : '') + "\"> <a href=\"#\" class=\"" + (this.clsClose) + "\" data-uk-close></a> <div>" + (this.message) + "</div> </div>")
-            ));
-
-        },
-
-        ready: function() {
-            var this$1 = this;
-
-
-            var marginBottom = toFloat(css(this.$el, 'marginBottom'));
-            Transition.start(
-                css(this.$el, {opacity: 0, marginTop: -this.$el.offsetHeight, marginBottom: 0}),
-                {opacity: 1, marginTop: 0, marginBottom: marginBottom}
-            ).then(function () {
-                if (this$1.timeout) {
-                    this$1.timer = setTimeout(this$1.close, this$1.timeout);
-                }
-            });
-
-        },
-
-        events: ( obj = {
-
-            click: function(e) {
-                if (closest(e.target, 'a[href="#"]')) {
-                    e.preventDefault();
-                }
-                this.close();
-            }
-
-        }, obj[pointerEnter] = function () {
-                if (this.timer) {
-                    clearTimeout(this.timer);
-                }
-            }, obj[pointerLeave] = function () {
-                if (this.timeout) {
-                    this.timer = setTimeout(this.close, this.timeout);
-                }
-            }, obj ),
-
-        methods: {
-
-            close: function(immediate) {
-                var this$1 = this;
-
-
-                var removeFn = function () {
-
-                    trigger(this$1.$el, 'close', [this$1]);
-                    remove(this$1.$el);
-
-                    if (!containers[this$1.pos].children.length) {
-                        css(containers[this$1.pos], 'display', 'none');
-                    }
-
-                };
-
-                if (this.timer) {
-                    clearTimeout(this.timer);
-                }
-
-                if (immediate) {
-                    removeFn();
-                } else {
-                    Transition.start(this.$el, {
-                        opacity: 0,
-                        marginTop: -this.$el.offsetHeight,
-                        marginBottom: 0
-                    }).then(removeFn);
-                }
-            }
-
-        }
-
-    };
-
-    function install$2(UIkit) {
-        UIkit.notification.closeAll = function (group, immediate) {
-            apply(document.body, function (el) {
-                var notification = UIkit.getComponent(el, 'notification');
-                if (notification && (!group || group === notification.group)) {
-                    notification.close(immediate);
-                }
-            });
-        };
-    }
-
-    var props = ['x', 'y', 'bgx', 'bgy', 'rotate', 'scale', 'color', 'backgroundColor', 'borderColor', 'opacity', 'blur', 'hue', 'grayscale', 'invert', 'saturate', 'sepia', 'fopacity'];
-
-    var Parallax = {
-
-        props: props.reduce(function (props, prop) {
-            props[prop] = 'list';
-            return props;
-        }, {
-            media: 'media'
-        }),
-
-        data: props.reduce(function (data$$1, prop) {
-            data$$1[prop] = undefined;
-            return data$$1;
-        }, {
-            media: false
-        }),
 
         computed: {
 
-            props: function(properties, $el) {
-                var this$1 = this;
+            date: function(ref) {
+                var date = ref.date;
 
-
-                return props.reduce(function (props, prop) {
-
-                    if (isUndefined(properties[prop])) {
-                        return props;
-                    }
-
-                    var isColor = prop.match(/color/i);
-                    var isCssProp = isColor || prop === 'opacity';
-
-                    var pos, bgPos, diff;
-                    var steps = properties[prop].slice(0);
-
-                    if (isCssProp) {
-                        css($el, prop, '');
-                    }
-
-                    if (steps.length < 2) {
-                        steps.unshift((prop === 'scale'
-                            ? 1
-                            : isCssProp
-                                ? css($el, prop)
-                                : 0) || 0);
-                    }
-
-                    var unit = includes(steps.join(''), '%') ? '%' : 'px';
-
-                    if (isColor) {
-
-                        var ref = $el.style;
-                        var color = ref.color;
-                        steps = steps.map(function (step) { return parseColor($el, step); });
-                        $el.style.color = color;
-
-                    } else {
-
-                        steps = steps.map(toFloat);
-
-                    }
-
-                    if (prop.match(/^bg/)) {
-
-                        css($el, ("background-position-" + (prop[2])), '');
-                        bgPos = css($el, 'backgroundPosition').split(' ')[prop[2] === 'x' ? 0 : 1]; // IE 11 can't read background-position-[x|y]
-
-                        if (this$1.covers) {
-
-                            var min = Math.min.apply(Math, steps);
-                            var max = Math.max.apply(Math, steps);
-                            var down = steps.indexOf(min) < steps.indexOf(max);
-
-                            diff = max - min;
-
-                            steps = steps.map(function (step) { return step - (down ? min : max); });
-                            pos = (down ? -diff : 0) + "px";
-
-                        } else {
-
-                            pos = bgPos;
-
-                        }
-                    }
-
-                    props[prop] = {steps: steps, unit: unit, pos: pos, bgPos: bgPos, diff: diff};
-
-                    return props;
-
-                }, {});
-
+                return Date.parse(date);
             },
 
-            bgProps: function() {
-                var this$1 = this;
+            days: function(ref, $el) {
+                var clsWrapper = ref.clsWrapper;
 
-                return ['bgx', 'bgy'].filter(function (bg) { return bg in this$1.props; });
+                return $(clsWrapper.replace('%unit%', 'days'), $el);
             },
 
-            covers: function(_, $el) {
-                return covers($el);
+            hours: function(ref, $el) {
+                var clsWrapper = ref.clsWrapper;
+
+                return $(clsWrapper.replace('%unit%', 'hours'), $el);
+            },
+
+            minutes: function(ref, $el) {
+                var clsWrapper = ref.clsWrapper;
+
+                return $(clsWrapper.replace('%unit%', 'minutes'), $el);
+            },
+
+            seconds: function(ref, $el) {
+                var clsWrapper = ref.clsWrapper;
+
+                return $(clsWrapper.replace('%unit%', 'seconds'), $el);
+            },
+
+            units: function() {
+                var this$1 = this;
+
+                return ['days', 'hours', 'minutes', 'seconds'].filter(function (unit) { return this$1[unit]; });
             }
 
         },
 
-        disconnected: function() {
-            delete this._image;
+        connected: function() {
+            this.start();
         },
 
-        update: [
+        disconnected: function() {
+            var this$1 = this;
+
+            this.stop();
+            this.units.forEach(function (unit) { return empty(this$1[unit]); });
+        },
+
+        events: [
 
             {
 
-                read: function(data$$1) {
-                    var this$1 = this;
+                name: 'visibilitychange',
 
+                el: document,
 
-                    data$$1.active = !this.media || window.matchMedia(this.media).matches;
-
-                    if (data$$1.image) {
-                        data$$1.image.dimEl = {
-                            width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
-                        };
+                handler: function() {
+                    if (document.hidden) {
+                        this.stop();
+                    } else {
+                        this.start();
                     }
-
-                    if ('image' in data$$1 || !this.covers || !this.bgProps.length) {
-                        return;
-                    }
-
-                    var src = css(this.$el, 'backgroundImage').replace(/^none|url\(["']?(.+?)["']?\)$/, '$1');
-
-                    if (!src) {
-                        return;
-                    }
-
-                    data$$1.image = false;
-
-                    getImage(src).then(function (img) {
-                        data$$1.image = {
-                            width: img.naturalWidth,
-                            height: img.naturalHeight
-                        };
-
-                        this$1.$emit();
-                    });
-
-                },
-
-                write: function(ref) {
-                    var this$1 = this;
-                    var image = ref.image;
-                    var active = ref.active;
-
-
-                    if (!image) {
-                        return;
-                    }
-
-                    if (!active) {
-                        css(this.$el, {backgroundSize: '', backgroundRepeat: ''});
-                        return;
-                    }
-
-                    var dimEl = image.dimEl;
-
-                    var dim = Dimensions.cover(image, dimEl);
-
-                    this.bgProps.forEach(function (prop) {
-
-                        var ref = this$1.props[prop];
-                        var diff = ref.diff;
-                        var bgPos = ref.bgPos;
-                        var steps = ref.steps;
-                        var attr$$1 = prop === 'bgy' ? 'height' : 'width';
-                        var span = dim[attr$$1] - dimEl[attr$$1];
-
-                        if (!bgPos.match(/%$|0px/)) {
-                            return;
-                        }
-
-                        if (span < diff) {
-                            dimEl[attr$$1] = dim[attr$$1] + diff - span;
-                        } else if (span > diff) {
-
-                            var bgPosFloat = parseFloat(bgPos);
-
-                            if (bgPosFloat) {
-                                this$1.props[prop].steps = steps.map(function (step) { return step - (span - diff) / (100 / bgPosFloat); });
-                            }
-                        }
-
-                        dim = Dimensions.cover(image, dimEl);
-                    });
-
-                    css(this.$el, {
-                        backgroundSize: ((dim.width) + "px " + (dim.height) + "px"),
-                        backgroundRepeat: 'no-repeat'
-                    });
-
-                },
-
-                events: ['load', 'resize']
+                }
 
             }
 
         ],
 
-        methods: {
+        update: {
 
-            reset: function() {
+            write: function() {
                 var this$1 = this;
 
-                each(this.getCss(0), function (_, prop) { return css(this$1.$el, prop, ''); });
-            },
 
-            getCss: function(percent) {
+                var timespan = getTimeSpan(this.date);
 
-                var ref = this;
-                var props = ref.props;
-                var translated = false;
+                if (timespan.total <= 0) {
 
-                return Object.keys(props).reduce(function (css$$1, prop) {
+                    this.stop();
 
-                    var ref = props[prop];
-                    var steps = ref.steps;
-                    var unit = ref.unit;
-                    var pos = ref.pos;
-                    var value = getValue(steps, percent);
+                    timespan.days
+                        = timespan.hours
+                        = timespan.minutes
+                        = timespan.seconds
+                        = 0;
+                }
 
-                    switch (prop) {
+                this.units.forEach(function (unit) {
 
-                        // transforms
-                        case 'x':
-                        case 'y':
+                    var digits = String(Math.floor(timespan[unit]));
 
-                            if (translated) {
-                                break;
-                            }
+                    digits = digits.length < 2 ? ("0" + digits) : digits;
 
-                            var ref$1 = ['x', 'y'].map(function (dir) { return prop === dir
-                                ? value + unit
-                                : props[dir]
-                                    ? getValue(props[dir].steps, percent) + props[dir].unit
-                                    : 0; }
-                            );
-                    var x = ref$1[0];
-                    var y = ref$1[1];
+                    var el = this$1[unit];
+                    if (el.textContent !== digits) {
+                        digits = digits.split('');
 
-                            translated = css$$1.transform += " translate3d(" + x + ", " + y + ", 0)";
-                            break;
-                        case 'rotate':
-                            css$$1.transform += " rotate(" + value + "deg)";
-                            break;
-                        case 'scale':
-                            css$$1.transform += " scale(" + value + ")";
-                            break;
+                        if (digits.length !== el.children.length) {
+                            html(el, digits.map(function () { return '<span></span>'; }).join(''));
+                        }
 
-                        // bg image
-                        case 'bgy':
-                        case 'bgx':
-                            css$$1[("background-position-" + (prop[2]))] = "calc(" + pos + " + " + (value + unit) + ")";
-                            break;
-
-                        // color
-                        case 'color':
-                        case 'backgroundColor':
-                        case 'borderColor':
-
-                            var ref$2 = getStep(steps, percent);
-                    var start = ref$2[0];
-                    var end = ref$2[1];
-                    var p = ref$2[2];
-
-                            css$$1[prop] = "rgba(" + (start.map(function (value, i) {
-                                    value = value + p * (end[i] - value);
-                                    return i === 3 ? toFloat(value) : parseInt(value, 10);
-                                }).join(',')) + ")";
-                            break;
-
-                        // CSS Filter
-                        case 'blur':
-                            css$$1.filter += " blur(" + value + "px)";
-                            break;
-                        case 'hue':
-                            css$$1.filter += " hue-rotate(" + value + "deg)";
-                            break;
-                        case 'fopacity':
-                            css$$1.filter += " opacity(" + value + "%)";
-                            break;
-                        case 'grayscale':
-                        case 'invert':
-                        case 'saturate':
-                        case 'sepia':
-                            css$$1.filter += " " + prop + "(" + value + "%)";
-                            break;
-
-                        default:
-                            css$$1[prop] = value;
+                        digits.forEach(function (digit, i) { return el.children[i].textContent = digit; });
                     }
 
-                    return css$$1;
+                });
 
-                }, {transform: '', filter: ''});
+            }
+
+        },
+
+        methods: {
+
+            start: function() {
+                var this$1 = this;
+
+
+                this.stop();
+
+                if (this.date && this.units.length) {
+                    this.$emit();
+                    this.timer = setInterval(function () { return this$1.$emit(); }, 1000);
+                }
+
+            },
+
+            stop: function() {
+
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
 
             }
 
@@ -8461,109 +8188,560 @@
 
     };
 
-    function parseColor(el, color) {
-        return css(css(el, 'color', color), 'color').split(/[(),]/g).slice(1, -1).concat(1).slice(0, 4).map(function (n) { return toFloat(n); });
+    function getTimeSpan(date) {
+
+        var total = date - Date.now();
+
+        return {
+            total: total,
+            seconds: total / 1000 % 60,
+            minutes: total / 1000 / 60 % 60,
+            hours: total / 1000 / 60 / 60 % 24,
+            days: total / 1000 / 60 / 60 / 24
+        };
     }
 
-    function getStep(steps, percent) {
-        var count = steps.length - 1;
-        var index$$1 = Math.min(Math.floor(count * percent), count - 1);
-        var step = steps.slice(index$$1, index$$1 + 2);
+    var targetClass = 'uk-animation-target';
 
-        step.push(percent === 1 ? 1 : percent % (1 / count) * count);
-
-        return step;
-    }
-
-    function getValue(steps, percent) {
-        var ref = getStep(steps, percent);
-        var start = ref[0];
-        var end = ref[1];
-        var p = ref[2];
-        return (isNumber(start)
-                ? start + Math.abs(start - end) * p * (start < end ? 1 : -1)
-                : +end
-        ).toFixed(2);
-    }
-
-    function covers(el) {
-        var ref = el.style;
-        var backgroundSize = ref.backgroundSize;
-        var covers = css(css(el, 'backgroundSize', ''), 'backgroundSize') === 'cover';
-        el.style.backgroundSize = backgroundSize;
-        return covers;
-    }
-
-    var Parallax$1 = {
-
-        mixins: [Parallax],
+    var Animate = {
 
         props: {
-            target: String,
-            viewport: Number,
-            easing: Number,
+            animation: Number
         },
 
         data: {
-            target: false,
-            viewport: 1,
-            easing: 1,
+            animation: 150
         },
 
         computed: {
 
-            target: function(ref, $el) {
-                var target = ref.target;
-
-                return target && query(target, $el) || $el;
+            target: function() {
+                return this.$el;
             }
 
         },
 
-        update: [
+        methods: {
+
+            animate: function(action) {
+                var this$1 = this;
+
+
+                addStyle();
+
+                var children = toNodes(this.target.children);
+                var propsFrom = children.map(function (el) { return getProps(el, true); });
+
+                var oldHeight = height(this.target);
+                var oldScrollY = window.pageYOffset;
+
+                action();
+
+                Transition.cancel(this.target);
+                children.forEach(Transition.cancel);
+
+                reset(this.target);
+                this.$update(this.target);
+                fastdom.flush();
+
+                var newHeight = height(this.target);
+
+                children = children.concat(toNodes(this.target.children).filter(function (el) { return !includes(children, el); }));
+
+                var propsTo = children.map(function (el, i) { return el.parentNode && i in propsFrom
+                        ? propsFrom[i]
+                        ? isVisible(el)
+                            ? getPositionWithMargin(el)
+                            : {opacity: 0}
+                        : {opacity: isVisible(el) ? 1 : 0}
+                        : false; }
+                );
+
+                propsFrom = propsTo.map(function (props, i) {
+                    var from = children[i].parentNode === this$1.target
+                        ? propsFrom[i] || getProps(children[i])
+                        : false;
+
+                    if (from) {
+                        if (!props) {
+                            delete from.opacity;
+                        } else if (!('opacity' in props)) {
+                            var opacity = from.opacity;
+
+                            if (opacity % 1) {
+                                props.opacity = 1;
+                            } else {
+                                delete from.opacity;
+                            }
+                        }
+                    }
+
+                    return from;
+                });
+
+                addClass(this.target, targetClass);
+                children.forEach(function (el, i) { return propsFrom[i] && css(el, propsFrom[i]); });
+                css(this.target, 'height', oldHeight);
+                scrollTop(window, oldScrollY);
+
+                return Promise.all(children.map(function (el, i) { return propsFrom[i] && propsTo[i]
+                        ? Transition.start(el, propsTo[i], this$1.animation, 'ease')
+                        : Promise.resolve(); }
+                ).concat(Transition.start(this.target, {height: newHeight}, this.animation, 'ease'))).then(function () {
+                    children.forEach(function (el, i) { return css(el, {display: propsTo[i].opacity === 0 ? 'none' : '', zIndex: ''}); });
+                    reset(this$1.target);
+                    this$1.$update(this$1.target);
+                    fastdom.flush(); // needed for IE11
+                }, noop);
+
+            }
+        }
+    };
+
+    function getProps(el, opacity) {
+
+        var zIndex = css(el, 'zIndex');
+
+        return isVisible(el)
+            ? assign({
+                display: '',
+                opacity: opacity ? css(el, 'opacity') : '0',
+                pointerEvents: 'none',
+                position: 'absolute',
+                zIndex: zIndex === 'auto' ? index(el) : zIndex
+            }, getPositionWithMargin(el))
+            : false;
+    }
+
+    function reset(el) {
+        css(el.children, {
+            height: '',
+            left: '',
+            opacity: '',
+            pointerEvents: '',
+            position: '',
+            top: '',
+            width: ''
+        });
+        removeClass(el, targetClass);
+        css(el, 'height', '');
+    }
+
+    function getPositionWithMargin(el) {
+        var ref = el.getBoundingClientRect();
+        var height$$1 = ref.height;
+        var width$$1 = ref.width;
+        var ref$1 = position(el);
+        var top = ref$1.top;
+        var left = ref$1.left;
+        top += toFloat(css(el, 'marginTop'));
+
+        return {top: top, left: left, height: height$$1, width: width$$1};
+    }
+
+    var style$1;
+
+    function addStyle() {
+        if (!style$1) {
+            style$1 = append(document.head, '<style>').sheet;
+            style$1.insertRule(
+                ("." + targetClass + " > * {\n                    margin-top: 0 !important;\n                    transform: none !important;\n                }"), 0
+            );
+        }
+    }
+
+    var Filter = {
+
+        mixins: [Animate],
+
+        args: 'target',
+
+        attrs: true,
+
+        props: {
+            target: Boolean,
+            selActive: Boolean
+        },
+
+        data: {
+            target: null,
+            selActive: false,
+            attrItem: 'uk-filter-control',
+            cls: 'uk-active',
+            animation: 250
+        },
+
+        computed: {
+
+            toggles: function(ref, $el) {
+                var attrItem = ref.attrItem;
+
+                return $$(("[" + (this.attrItem) + "],[data-" + (this.attrItem) + "]"), $el);
+            },
+
+            target: function(ref, $el) {
+                var target = ref.target;
+
+                return $(target, $el);
+            }
+
+        },
+
+        events: [
 
             {
 
-                read: function(ref) {
-                    var percent = ref.percent;
+                name: 'click',
 
-                    return {
-                        prev: percent,
-                        percent: ease$1(scrolledOver(this.target) / (this.viewport || 1), this.easing)
-                    };
+                delegate: function() {
+                    return ("[" + (this.attrItem) + "],[data-" + (this.attrItem) + "]");
                 },
 
-                write: function(ref, ref$1) {
-                    var prev = ref.prev;
-                    var percent = ref.percent;
-                    var active = ref.active;
-                    var type = ref$1.type;
+                handler: function(e) {
 
+                    e.preventDefault();
+                    this.apply(e.current);
 
-                    if (type !== 'scroll') {
-                        prev = false;
-                    }
+                }
 
-                    if (!active) {
-                        this.reset();
-                        return;
-                    }
-
-                    if (prev !== percent) {
-                        css(this.$el, this.getCss(percent));
-                    }
-
-                },
-
-                events: ['scroll', 'load', 'resize']
             }
 
-        ]
+        ],
+
+        connected: function() {
+            var this$1 = this;
+
+
+            if (this.selActive === false) {
+                return;
+            }
+
+            var actives = $$(this.selActive, this.$el);
+            this.toggles.forEach(function (el) { return toggleClass(el, this$1.cls, includes(actives, el)); });
+        },
+
+        update: function(data$$1) {
+
+            var toggles = data$$1.toggles;
+            var children = data$$1.children;
+            if (isEqualList(toggles, this.toggles, false) && isEqualList(children, this.target.children, false)) {
+                return;
+            }
+
+            data$$1.toggles = this.toggles;
+            data$$1.children = this.target.children;
+
+            this.setState(this.getState(), false);
+
+        },
+
+        methods: {
+
+            apply: function(el) {
+                this.setState(mergeState(el, this.attrItem, this.getState()));
+            },
+
+            getState: function() {
+                var this$1 = this;
+
+                return this.toggles
+                    .filter(function (item) { return hasClass(item, this$1.cls); })
+                    .reduce(function (state, el) { return mergeState(el, this$1.attrItem, state); }, {filter: {'': ''}, sort: []});
+            },
+
+            setState: function(state, animate$$1) {
+                var this$1 = this;
+                if ( animate$$1 === void 0 ) animate$$1 = true;
+
+
+                state = assign({filter: {'': ''}, sort: []}, state);
+
+                trigger(this.$el, 'beforeFilter', [this, state]);
+
+                var children = toNodes(this.target.children);
+
+                this.toggles.forEach(function (el) { return toggleClass(el, this$1.cls, matchFilter(el, this$1.attrItem, state)); });
+
+                var apply$$1 = function () {
+
+                    var selector = getSelector(state);
+
+                    children.forEach(function (el) { return css(el, 'display', selector && !matches(el, selector) ? 'none' : ''); });
+
+                    var ref = state.sort;
+                    var sort = ref[0];
+                    var order = ref[1];
+
+                    if (sort) {
+                        var sorted = sortItems(children, sort, order);
+                        if (!isEqualList(sorted, children)) {
+                            sorted.forEach(function (el) { return append(this$1.target, el); });
+                        }
+                    }
+
+                };
+
+                if (animate$$1) {
+                    this.animate(apply$$1).then(function () { return trigger(this$1.$el, 'afterFilter', [this$1]); });
+                } else {
+                    apply$$1();
+                    trigger(this.$el, 'afterFilter', [this]);
+                }
+
+            }
+
+        }
 
     };
 
-    function ease$1(percent, easing) {
-        return clamp(percent * (1 - (easing - easing * percent)));
+    function getFilter(el, attr$$1) {
+        return parseOptions(data(el, attr$$1), ['filter']);
+    }
+
+    function mergeState(el, attr$$1, state) {
+
+        toNodes(el).forEach(function (el) {
+            var filterBy = getFilter(el, attr$$1);
+            var filter$$1 = filterBy.filter;
+            var group = filterBy.group;
+            var sort = filterBy.sort;
+            var order = filterBy.order; if ( order === void 0 ) order = 'asc';
+
+            if (filter$$1 || isUndefined(sort)) {
+
+                if (group) {
+                    delete state.filter[''];
+                    state.filter[group] = filter$$1;
+                } else {
+                    state.filter = {'': filter$$1};
+                }
+
+            }
+
+            if (!isUndefined(sort)) {
+                state.sort = [sort, order];
+            }
+        });
+
+        return state;
+    }
+
+    function matchFilter(el, attr$$1, ref) {
+        var stateFilter = ref.filter;
+        var ref_sort = ref.sort;
+        var stateSort = ref_sort[0];
+        var stateOrder = ref_sort[1];
+
+        var ref$1 = getFilter(el, attr$$1);
+        var filter$$1 = ref$1.filter;
+        var group = ref$1.group; if ( group === void 0 ) group = '';
+        var sort = ref$1.sort;
+        var order = ref$1.order; if ( order === void 0 ) order = 'asc';
+        return Boolean(
+            (filter$$1 || isUndefined(sort)) && group in stateFilter && (filter$$1 === stateFilter[group] || isUndefined(filter$$1) && !stateFilter[group])
+            || stateSort && sort && stateSort === sort && stateOrder === order
+        );
+    }
+
+    function isEqualList(listA, listB, strict) {
+        if ( strict === void 0 ) strict = true;
+
+
+        listA = toNodes(listA);
+        listB = toNodes(listB);
+
+        return listA.length === listB.length
+            && listA.every(function (el, i) { return strict ? el === listB[i] : ~listB.indexOf(el); });
+    }
+
+    function getSelector(ref) {
+        var filter$$1 = ref.filter;
+
+        var selector = '';
+        each(filter$$1, function (value) { return selector += value || ''; });
+        return selector;
+    }
+
+    function sortItems(nodes, sort, order) {
+        return toNodes(nodes).sort(function (a, b) { return data(a, sort).localeCompare(data(b, sort), undefined, {numeric: true}) * (order === 'asc' || -1); });
+    }
+
+    var Animations = {
+
+        slide: {
+
+            show: function(dir) {
+                return [
+                    {transform: translate(dir * -100)},
+                    {transform: translate()}
+                ];
+            },
+
+            percent: function(current) {
+                return translated(current);
+            },
+
+            translate: function(percent, dir) {
+                return [
+                    {transform: translate(dir * -100 * percent)},
+                    {transform: translate(dir * 100 * (1 - percent))}
+                ];
+            }
+
+        }
+
+    };
+
+    function translated(el) {
+        return Math.abs(css(el, 'transform').split(',')[4] / el.offsetWidth) || 0;
+    }
+
+    function translate(value, unit) {
+        if ( value === void 0 ) value = 0;
+        if ( unit === void 0 ) unit = '%';
+
+        return ("translateX(" + value + (value ? unit : '') + ")"); // currently not translate3d to support IE, translate3d within translate3d does not work while transitioning
+    }
+
+    function scale3d(value) {
+        return ("scale3d(" + value + ", " + value + ", 1)");
+    }
+
+    var Animations$1 = assign({}, Animations, {
+
+        fade: {
+
+            show: function() {
+                return [
+                    {opacity: 0},
+                    {opacity: 1}
+                ];
+            },
+
+            percent: function(current) {
+                return 1 - css(current, 'opacity');
+            },
+
+            translate: function(percent) {
+                return [
+                    {opacity: 1 - percent},
+                    {opacity: percent}
+                ];
+            }
+
+        },
+
+        scale: {
+
+            show: function() {
+                return [
+                    {opacity: 0, transform: scale3d(1 - .2)},
+                    {opacity: 1, transform: scale3d(1)}
+                ];
+            },
+
+            percent: function(current) {
+                return 1 - css(current, 'opacity');
+            },
+
+            translate: function(percent) {
+                return [
+                    {opacity: 1 - percent, transform: scale3d(1 - .2 * percent)},
+                    {opacity: percent, transform: scale3d(1 - .2 + .2 * percent)}
+                ];
+            }
+
+        }
+
+    });
+
+    function Transitioner(prev, next, dir, ref) {
+        var animation = ref.animation;
+        var easing = ref.easing;
+
+
+        var percent = animation.percent;
+        var translate = animation.translate;
+        var show = animation.show; if ( show === void 0 ) show = noop;
+        var props = show(dir);
+        var deferred = new Deferred();
+
+        return {
+
+            dir: dir,
+
+            show: function(duration, percent, linear) {
+                var this$1 = this;
+                if ( percent === void 0 ) percent = 0;
+
+
+                var timing = linear ? 'linear' : easing;
+                duration -= Math.round(duration * clamp(percent, -1, 1));
+
+                this.translate(percent);
+
+                triggerUpdate(next, 'itemin', {percent: percent, duration: duration, timing: timing, dir: dir});
+                triggerUpdate(prev, 'itemout', {percent: 1 - percent, duration: duration, timing: timing, dir: dir});
+
+                Promise.all([
+                    Transition.start(next, props[1], duration, timing),
+                    Transition.start(prev, props[0], duration, timing)
+                ]).then(function () {
+                    this$1.reset();
+                    deferred.resolve();
+                }, noop);
+
+                return deferred.promise;
+            },
+
+            stop: function() {
+                return Transition.stop([next, prev]);
+            },
+
+            cancel: function() {
+                Transition.cancel([next, prev]);
+            },
+
+            reset: function() {
+                for (var prop in props[0]) {
+                    css([next, prev], prop, '');
+                }
+            },
+
+            forward: function(duration, percent) {
+                if ( percent === void 0 ) percent = this.percent();
+
+                Transition.cancel([next, prev]);
+                return this.show(duration, percent, true);
+
+            },
+
+            translate: function(percent) {
+
+                this.reset();
+
+                var props = translate(percent, dir);
+                css(next, props[1]);
+                css(prev, props[0]);
+                triggerUpdate(next, 'itemtranslatein', {percent: percent, dir: dir});
+                triggerUpdate(prev, 'itemtranslateout', {percent: 1 - percent, dir: dir});
+
+            },
+
+            percent: function() {
+                return percent(prev || next, next, dir);
+            },
+
+            getDistance: function() {
+                return prev.offsetWidth;
+            }
+
+        };
+
+    }
+
+    function triggerUpdate(el, type, data$$1) {
+        trigger(el, createEvent(type, false, false, data$$1));
     }
 
     var SliderAutoplay = {
@@ -9237,6 +9415,1052 @@
         return .5 * x + 300; // parabola through (400,500; 600,600; 1800,1200)
     }
 
+    var Slideshow = {
+
+        mixins: [Slider],
+
+        props: {
+            animation: String
+        },
+
+        data: {
+            animation: 'slide',
+            clsActivated: 'uk-transition-active',
+            Animations: Animations,
+            Transitioner: Transitioner
+        },
+
+        computed: {
+
+            animation: function(ref) {
+                var animation = ref.animation;
+                var Animations$$1 = ref.Animations;
+
+                return assign(animation in Animations$$1 ? Animations$$1[animation] : Animations$$1.slide, {name: animation});
+            },
+
+            transitionOptions: function() {
+                return {animation: this.animation};
+            }
+
+        },
+
+        events: {
+
+            'itemshow itemhide itemshown itemhidden': function(ref) {
+                var target = ref.target;
+
+                this.$update(target);
+            },
+
+            itemshow: function() {
+                isNumber(this.prevIndex) && fastdom.flush(); // iOS 10+ will honor the video.play only if called from a gesture handler
+            },
+
+            beforeitemshow: function(ref) {
+                var target = ref.target;
+
+                addClass(target, this.clsActive);
+            },
+
+            itemshown: function(ref) {
+                var target = ref.target;
+
+                addClass(target, this.clsActivated);
+            },
+
+            itemhidden: function(ref) {
+                var target = ref.target;
+
+                removeClass(target, this.clsActive, this.clsActivated);
+            }
+
+        }
+
+    };
+
+    var LightboxPanel = {
+
+        mixins: [Container, Modal, Togglable, Slideshow],
+
+        functional: true,
+
+        props: {
+            delayControls: Number,
+            preload: Number,
+            videoAutoplay: Boolean,
+            template: String
+        },
+
+        data: function () { return ({
+            preload: 1,
+            videoAutoplay: false,
+            delayControls: 3000,
+            items: [],
+            cls: 'uk-open',
+            clsPage: 'uk-lightbox-page',
+            selList: '.uk-lightbox-items',
+            attrItem: 'uk-lightbox-item',
+            selClose: '.uk-close-large',
+            pauseOnHover: false,
+            velocity: 2,
+            Animations: Animations$1,
+            template: "<div class=\"uk-lightbox uk-overflow-hidden\"> <ul class=\"uk-lightbox-items\"></ul> <div class=\"uk-lightbox-toolbar uk-position-top uk-text-right uk-transition-slide-top uk-transition-opaque\"> <button class=\"uk-lightbox-toolbar-icon uk-close-large\" type=\"button\" uk-close></button> </div> <a class=\"uk-lightbox-button uk-position-center-left uk-position-medium uk-transition-fade\" href=\"#\" uk-slidenav-previous uk-lightbox-item=\"previous\"></a> <a class=\"uk-lightbox-button uk-position-center-right uk-position-medium uk-transition-fade\" href=\"#\" uk-slidenav-next uk-lightbox-item=\"next\"></a> <div class=\"uk-lightbox-toolbar uk-lightbox-caption uk-position-bottom uk-text-center uk-transition-slide-bottom uk-transition-opaque\"></div> </div>"
+        }); },
+
+        created: function() {
+            var this$1 = this;
+
+
+            this.$mount(append(this.container, this.template));
+
+            this.caption = $('.uk-lightbox-caption', this.$el);
+
+            this.items.forEach(function () { return append(this$1.list, '<li></li>'); });
+
+        },
+
+        events: [
+
+            {
+
+                name: (pointerMove + " " + pointerDown + " keydown"),
+
+                handler: 'showControls'
+
+            },
+
+            {
+
+                name: 'click',
+
+                self: true,
+
+                delegate: function() {
+                    return this.slidesSelector;
+                },
+
+                handler: function(e) {
+                    e.preventDefault();
+                    this.hide();
+                }
+
+            },
+
+            {
+
+                name: 'shown',
+
+                self: true,
+
+                handler: 'showControls'
+            },
+
+            {
+
+                name: 'hide',
+
+                self: true,
+
+                handler: function() {
+
+                    this.hideControls();
+
+                    removeClass(this.slides, this.clsActive);
+                    Transition.stop(this.slides);
+
+                }
+            },
+
+            {
+
+                name: 'keyup',
+
+                el: document,
+
+                handler: function(e) {
+
+                    if (!this.isToggled(this.$el)) {
+                        return;
+                    }
+
+                    switch (e.keyCode) {
+                        case 37:
+                            this.show('previous');
+                            break;
+                        case 39:
+                            this.show('next');
+                            break;
+                    }
+                }
+            },
+
+            {
+
+                name: 'beforeitemshow',
+
+                handler: function(e) {
+
+                    if (this.isToggled()) {
+                        return;
+                    }
+
+                    this.preventCatch = true;
+
+                    e.preventDefault();
+
+                    this.toggleNow(this.$el, true);
+
+                    this.animation = Animations$1['scale'];
+                    removeClass(e.target, this.clsActive);
+                    this.stack.splice(1, 0, this.index);
+
+                }
+
+            },
+
+            {
+
+                name: 'itemshow',
+
+                handler: function(ref) {
+                    var this$1 = this;
+                    var target = ref.target;
+
+
+                    var i = index(target);
+                    var ref$1 = this.getItem(i);
+                    var caption = ref$1.caption;
+
+                    css(this.caption, 'display', caption ? '' : 'none');
+                    html(this.caption, caption);
+
+                    for (var j = 0; j <= this.preload; j++) {
+                        this$1.loadItem(this$1.getIndex(i + j));
+                        this$1.loadItem(this$1.getIndex(i - j));
+                    }
+
+                }
+
+            },
+
+            {
+
+                name: 'itemshown',
+
+                handler: function() {
+                    this.preventCatch = false;
+                }
+
+            },
+
+            {
+
+                name: 'itemload',
+
+                handler: function(_, item) {
+                    var this$1 = this;
+
+
+                    var source = item.source;
+                    var type = item.type;
+                    var alt = item.alt;
+
+                    this.setItem(item, '<span uk-spinner></span>');
+
+                    if (!source) {
+                        return;
+                    }
+
+                    var matches$$1;
+
+                    // Image
+                    if (type === 'image' || source.match(/\.(jp(e)?g|png|gif|svg)($|\?)/i)) {
+
+                        getImage(source).then(
+                            function (img) { return this$1.setItem(item, ("<img width=\"" + (img.width) + "\" height=\"" + (img.height) + "\" src=\"" + source + "\" alt=\"" + (alt ? alt : '') + "\">")); },
+                            function () { return this$1.setError(item); }
+                        );
+
+                        // Video
+                    } else if (type === 'video' || source.match(/\.(mp4|webm|ogv)($|\?)/i)) {
+
+                        var video = $(("<video controls playsinline" + (item.poster ? (" poster=\"" + (item.poster) + "\"") : '') + " uk-video=\"" + (this.videoAutoplay) + "\"></video>"));
+                        attr(video, 'src', source);
+
+                        on(video, 'error', function () { return this$1.setError(item); });
+                        on(video, 'loadedmetadata', function () {
+                            attr(video, {width: video.videoWidth, height: video.videoHeight});
+                            this$1.setItem(item, video);
+                        });
+
+                        // Iframe
+                    } else if (type === 'iframe' || source.match(/\.(html|php)($|\?)/i)) {
+
+                        this.setItem(item, ("<iframe class=\"uk-lightbox-iframe\" src=\"" + source + "\" frameborder=\"0\" allowfullscreen></iframe>"));
+
+                        // YouTube
+                    } else if ((matches$$1 = source.match(/\/\/.*?youtube(-nocookie)?\.[a-z]+\/watch\?v=([^&\s]+)/) || source.match(/()youtu\.be\/(.*)/))) {
+
+                        var id = matches$$1[2];
+                        var setIframe = function (width$$1, height$$1) {
+                            if ( width$$1 === void 0 ) width$$1 = 640;
+                            if ( height$$1 === void 0 ) height$$1 = 450;
+
+                            return this$1.setItem(item, getIframe(("https://www.youtube" + (matches$$1[1] || '') + ".com/embed/" + id), width$$1, height$$1, this$1.videoAutoplay));
+                        };
+
+                        getImage(("https://img.youtube.com/vi/" + id + "/maxresdefault.jpg")).then(
+                            function (ref) {
+                                var width$$1 = ref.width;
+                                var height$$1 = ref.height;
+
+                                // YouTube default 404 thumb, fall back to low resolution
+                                if (width$$1 === 120 && height$$1 === 90) {
+                                    getImage(("https://img.youtube.com/vi/" + id + "/0.jpg")).then(
+                                        function (ref) {
+                                            var width$$1 = ref.width;
+                                            var height$$1 = ref.height;
+
+                                            return setIframe(width$$1, height$$1);
+                                    },
+                                        setIframe
+                                    );
+                                } else {
+                                    setIframe(width$$1, height$$1);
+                                }
+                            },
+                            setIframe
+                        );
+
+                        // Vimeo
+                    } else if ((matches$$1 = source.match(/(\/\/.*?)vimeo\.[a-z]+\/([0-9]+).*?/))) {
+
+                        ajax(("https://vimeo.com/api/oembed.json?maxwidth=1920&url=" + (encodeURI(source))), {responseType: 'json', withCredentials: false})
+                            .then(
+                                function (ref) {
+                                    var ref_response = ref.response;
+                                    var height$$1 = ref_response.height;
+                                    var width$$1 = ref_response.width;
+
+                                    return this$1.setItem(item, getIframe(("https://player.vimeo.com/video/" + (matches$$1[2])), width$$1, height$$1, this$1.videoAutoplay));
+                        },
+                                function () { return this$1.setError(item); }
+                            );
+
+                    }
+
+                }
+
+            }
+
+        ],
+
+        methods: {
+
+            loadItem: function(index$$1) {
+                if ( index$$1 === void 0 ) index$$1 = this.index;
+
+
+                var item = this.getItem(index$$1);
+
+                if (item.content) {
+                    return;
+                }
+
+                trigger(this.$el, 'itemload', [item]);
+            },
+
+            getItem: function(index$$1) {
+                if ( index$$1 === void 0 ) index$$1 = this.index;
+
+                return this.items[index$$1] || {};
+            },
+
+            setItem: function(item, content) {
+                assign(item, {content: content});
+                var el = html(this.slides[this.items.indexOf(item)], content);
+                trigger(this.$el, 'itemloaded', [this, el]);
+                this.$update(el);
+            },
+
+            setError: function(item) {
+                this.setItem(item, '<span uk-icon="icon: bolt; ratio: 2"></span>');
+            },
+
+            showControls: function() {
+
+                clearTimeout(this.controlsTimer);
+                this.controlsTimer = setTimeout(this.hideControls, this.delayControls);
+
+                addClass(this.$el, 'uk-active', 'uk-transition-active');
+
+            },
+
+            hideControls: function() {
+                removeClass(this.$el, 'uk-active', 'uk-transition-active');
+            }
+
+        }
+
+    };
+
+    function getIframe(src, width$$1, height$$1, autoplay) {
+        return ("<iframe src=\"" + src + "\" width=\"" + width$$1 + "\" height=\"" + height$$1 + "\" style=\"max-width: 100%; box-sizing: border-box;\" frameborder=\"0\" allowfullscreen uk-video=\"autoplay: " + autoplay + "\" uk-responsive></iframe>");
+    }
+
+    var Lightbox = {
+
+        install: install$2,
+
+        attrs: true,
+
+        props: {toggle: String},
+
+        data: {toggle: 'a'},
+
+        computed: {
+
+            toggles: function(ref, $el) {
+                var toggle = ref.toggle;
+
+                return $$(toggle, $el);
+            }
+
+        },
+
+        disconnected: function() {
+            this._destroy();
+        },
+
+        events: [
+
+            {
+
+                name: 'click',
+
+                delegate: function() {
+                    return ((this.toggle) + ":not(.uk-disabled)");
+                },
+
+                handler: function(e) {
+                    e.preventDefault();
+                    e.current.blur();
+                    this.show(index(this.toggles, e.current));
+                }
+
+            }
+
+        ],
+
+        update: function(data$$1) {
+
+            data$$1.toggles = this.panel && data$$1.toggles || this.toggles;
+
+            if (!this.panel || isEqualList$1(data$$1.toggles, this.toggles)) {
+                return;
+            }
+
+            data$$1.toggles = this.toggles;
+            this._destroy();
+            this._init();
+
+        },
+
+        methods: {
+
+            _init: function() {
+                return this.panel = this.panel || this.$create('lightboxPanel', assign({}, this.$props, {
+                    items: this.toggles.reduce(function (items, el) {
+                        items.push(['href', 'caption', 'type', 'poster', 'alt'].reduce(function (obj, attr$$1) {
+                            obj[attr$$1 === 'href' ? 'source' : attr$$1] = data(el, attr$$1);
+                            return obj;
+                        }, {}));
+                        return items;
+                    }, [])
+                }));
+            },
+
+            _destroy: function() {
+                if (this.panel) {
+                    this.panel.$destroy(true);
+                    this.panel = null;
+                }
+            },
+
+            show: function(index$$1) {
+
+                if (!this.panel) {
+                    this._init();
+                }
+
+                return this.panel.show(index$$1);
+
+            },
+
+            hide: function() {
+
+                return this.panel && this.panel.hide();
+
+            }
+
+        }
+
+    };
+
+    function isEqualList$1(listA, listB) {
+        return listA.length === listB.length
+            && listA.every(function (el, i) { return el === listB[i]; });
+    }
+
+    function install$2(UIkit, Lightbox) {
+
+        if (!UIkit.lightboxPanel) {
+            UIkit.component('lightboxPanel', LightboxPanel);
+        }
+
+        assign(
+            Lightbox.props,
+            UIkit.component('lightboxPanel').options.props
+        );
+
+    }
+
+    var obj;
+
+    var containers = {};
+
+    var Notification = {
+
+        functional: true,
+
+        args: ['message', 'status'],
+
+        data: {
+            message: '',
+            status: '',
+            timeout: 5000,
+            group: null,
+            pos: 'top-center',
+            clsClose: 'uk-notification-close',
+            clsMsg: 'uk-notification-message'
+        },
+
+        install: install$3,
+
+        created: function() {
+
+            if (!containers[this.pos]) {
+                containers[this.pos] = append(this.$container, ("<div class=\"uk-notification uk-notification-" + (this.pos) + "\"></div>"));
+            }
+
+            var container = css(containers[this.pos], 'display', 'block');
+
+            this.$mount(append(container,
+                ("<div class=\"" + (this.clsMsg) + (this.status ? (" " + (this.clsMsg) + "-" + (this.status)) : '') + "\"> <a href=\"#\" class=\"" + (this.clsClose) + "\" data-uk-close></a> <div>" + (this.message) + "</div> </div>")
+            ));
+
+        },
+
+        ready: function() {
+            var this$1 = this;
+
+
+            var marginBottom = toFloat(css(this.$el, 'marginBottom'));
+            Transition.start(
+                css(this.$el, {opacity: 0, marginTop: -this.$el.offsetHeight, marginBottom: 0}),
+                {opacity: 1, marginTop: 0, marginBottom: marginBottom}
+            ).then(function () {
+                if (this$1.timeout) {
+                    this$1.timer = setTimeout(this$1.close, this$1.timeout);
+                }
+            });
+
+        },
+
+        events: ( obj = {
+
+            click: function(e) {
+                if (closest(e.target, 'a[href="#"]')) {
+                    e.preventDefault();
+                }
+                this.close();
+            }
+
+        }, obj[pointerEnter] = function () {
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+            }, obj[pointerLeave] = function () {
+                if (this.timeout) {
+                    this.timer = setTimeout(this.close, this.timeout);
+                }
+            }, obj ),
+
+        methods: {
+
+            close: function(immediate) {
+                var this$1 = this;
+
+
+                var removeFn = function () {
+
+                    trigger(this$1.$el, 'close', [this$1]);
+                    remove(this$1.$el);
+
+                    if (!containers[this$1.pos].children.length) {
+                        css(containers[this$1.pos], 'display', 'none');
+                    }
+
+                };
+
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+
+                if (immediate) {
+                    removeFn();
+                } else {
+                    Transition.start(this.$el, {
+                        opacity: 0,
+                        marginTop: -this.$el.offsetHeight,
+                        marginBottom: 0
+                    }).then(removeFn);
+                }
+            }
+
+        }
+
+    };
+
+    function install$3(UIkit) {
+        UIkit.notification.closeAll = function (group, immediate) {
+            apply(document.body, function (el) {
+                var notification = UIkit.getComponent(el, 'notification');
+                if (notification && (!group || group === notification.group)) {
+                    notification.close(immediate);
+                }
+            });
+        };
+    }
+
+    var props = ['x', 'y', 'bgx', 'bgy', 'rotate', 'scale', 'color', 'backgroundColor', 'borderColor', 'opacity', 'blur', 'hue', 'grayscale', 'invert', 'saturate', 'sepia', 'fopacity'];
+
+    var Parallax = {
+
+        props: props.reduce(function (props, prop) {
+            props[prop] = 'list';
+            return props;
+        }, {
+            media: 'media'
+        }),
+
+        data: props.reduce(function (data$$1, prop) {
+            data$$1[prop] = undefined;
+            return data$$1;
+        }, {
+            media: false
+        }),
+
+        computed: {
+
+            props: function(properties, $el) {
+                var this$1 = this;
+
+
+                return props.reduce(function (props, prop) {
+
+                    if (isUndefined(properties[prop])) {
+                        return props;
+                    }
+
+                    var isColor = prop.match(/color/i);
+                    var isCssProp = isColor || prop === 'opacity';
+
+                    var pos, bgPos, diff;
+                    var steps = properties[prop].slice(0);
+
+                    if (isCssProp) {
+                        css($el, prop, '');
+                    }
+
+                    if (steps.length < 2) {
+                        steps.unshift((prop === 'scale'
+                            ? 1
+                            : isCssProp
+                                ? css($el, prop)
+                                : 0) || 0);
+                    }
+
+                    var unit = includes(steps.join(''), '%') ? '%' : 'px';
+
+                    if (isColor) {
+
+                        var ref = $el.style;
+                        var color = ref.color;
+                        steps = steps.map(function (step) { return parseColor($el, step); });
+                        $el.style.color = color;
+
+                    } else {
+
+                        steps = steps.map(toFloat);
+
+                    }
+
+                    if (prop.match(/^bg/)) {
+
+                        css($el, ("background-position-" + (prop[2])), '');
+                        bgPos = css($el, 'backgroundPosition').split(' ')[prop[2] === 'x' ? 0 : 1]; // IE 11 can't read background-position-[x|y]
+
+                        if (this$1.covers) {
+
+                            var min = Math.min.apply(Math, steps);
+                            var max = Math.max.apply(Math, steps);
+                            var down = steps.indexOf(min) < steps.indexOf(max);
+
+                            diff = max - min;
+
+                            steps = steps.map(function (step) { return step - (down ? min : max); });
+                            pos = (down ? -diff : 0) + "px";
+
+                        } else {
+
+                            pos = bgPos;
+
+                        }
+                    }
+
+                    props[prop] = {steps: steps, unit: unit, pos: pos, bgPos: bgPos, diff: diff};
+
+                    return props;
+
+                }, {});
+
+            },
+
+            bgProps: function() {
+                var this$1 = this;
+
+                return ['bgx', 'bgy'].filter(function (bg) { return bg in this$1.props; });
+            },
+
+            covers: function(_, $el) {
+                return covers($el);
+            }
+
+        },
+
+        disconnected: function() {
+            delete this._image;
+        },
+
+        update: [
+
+            {
+
+                read: function(data$$1) {
+                    var this$1 = this;
+
+
+                    data$$1.active = !this.media || window.matchMedia(this.media).matches;
+
+                    if (data$$1.image) {
+                        data$$1.image.dimEl = {
+                            width: this.$el.offsetWidth,
+                            height: this.$el.offsetHeight
+                        };
+                    }
+
+                    if ('image' in data$$1 || !this.covers || !this.bgProps.length) {
+                        return;
+                    }
+
+                    var src = css(this.$el, 'backgroundImage').replace(/^none|url\(["']?(.+?)["']?\)$/, '$1');
+
+                    if (!src) {
+                        return;
+                    }
+
+                    data$$1.image = false;
+
+                    getImage(src).then(function (img) {
+                        data$$1.image = {
+                            width: img.naturalWidth,
+                            height: img.naturalHeight
+                        };
+
+                        this$1.$emit();
+                    });
+
+                },
+
+                write: function(ref) {
+                    var this$1 = this;
+                    var image = ref.image;
+                    var active = ref.active;
+
+
+                    if (!image) {
+                        return;
+                    }
+
+                    if (!active) {
+                        css(this.$el, {backgroundSize: '', backgroundRepeat: ''});
+                        return;
+                    }
+
+                    var dimEl = image.dimEl;
+
+                    var dim = Dimensions.cover(image, dimEl);
+
+                    this.bgProps.forEach(function (prop) {
+
+                        var ref = this$1.props[prop];
+                        var diff = ref.diff;
+                        var bgPos = ref.bgPos;
+                        var steps = ref.steps;
+                        var attr$$1 = prop === 'bgy' ? 'height' : 'width';
+                        var span = dim[attr$$1] - dimEl[attr$$1];
+
+                        if (!bgPos.match(/%$|0px/)) {
+                            return;
+                        }
+
+                        if (span < diff) {
+                            dimEl[attr$$1] = dim[attr$$1] + diff - span;
+                        } else if (span > diff) {
+
+                            var bgPosFloat = parseFloat(bgPos);
+
+                            if (bgPosFloat) {
+                                this$1.props[prop].steps = steps.map(function (step) { return step - (span - diff) / (100 / bgPosFloat); });
+                            }
+                        }
+
+                        dim = Dimensions.cover(image, dimEl);
+                    });
+
+                    css(this.$el, {
+                        backgroundSize: ((dim.width) + "px " + (dim.height) + "px"),
+                        backgroundRepeat: 'no-repeat'
+                    });
+
+                },
+
+                events: ['load', 'resize']
+
+            }
+
+        ],
+
+        methods: {
+
+            reset: function() {
+                var this$1 = this;
+
+                each(this.getCss(0), function (_, prop) { return css(this$1.$el, prop, ''); });
+            },
+
+            getCss: function(percent) {
+
+                var ref = this;
+                var props = ref.props;
+                var translated = false;
+
+                return Object.keys(props).reduce(function (css$$1, prop) {
+
+                    var ref = props[prop];
+                    var steps = ref.steps;
+                    var unit = ref.unit;
+                    var pos = ref.pos;
+                    var value = getValue(steps, percent);
+
+                    switch (prop) {
+
+                        // transforms
+                        case 'x':
+                        case 'y':
+
+                            if (translated) {
+                                break;
+                            }
+
+                            var ref$1 = ['x', 'y'].map(function (dir) { return prop === dir
+                                ? value + unit
+                                : props[dir]
+                                    ? getValue(props[dir].steps, percent) + props[dir].unit
+                                    : 0; }
+                            );
+                    var x = ref$1[0];
+                    var y = ref$1[1];
+
+                            translated = css$$1.transform += " translate3d(" + x + ", " + y + ", 0)";
+                            break;
+                        case 'rotate':
+                            css$$1.transform += " rotate(" + value + "deg)";
+                            break;
+                        case 'scale':
+                            css$$1.transform += " scale(" + value + ")";
+                            break;
+
+                        // bg image
+                        case 'bgy':
+                        case 'bgx':
+                            css$$1[("background-position-" + (prop[2]))] = "calc(" + pos + " + " + (value + unit) + ")";
+                            break;
+
+                        // color
+                        case 'color':
+                        case 'backgroundColor':
+                        case 'borderColor':
+
+                            var ref$2 = getStep(steps, percent);
+                    var start = ref$2[0];
+                    var end = ref$2[1];
+                    var p = ref$2[2];
+
+                            css$$1[prop] = "rgba(" + (start.map(function (value, i) {
+                                    value = value + p * (end[i] - value);
+                                    return i === 3 ? toFloat(value) : parseInt(value, 10);
+                                }).join(',')) + ")";
+                            break;
+
+                        // CSS Filter
+                        case 'blur':
+                            css$$1.filter += " blur(" + value + "px)";
+                            break;
+                        case 'hue':
+                            css$$1.filter += " hue-rotate(" + value + "deg)";
+                            break;
+                        case 'fopacity':
+                            css$$1.filter += " opacity(" + value + "%)";
+                            break;
+                        case 'grayscale':
+                        case 'invert':
+                        case 'saturate':
+                        case 'sepia':
+                            css$$1.filter += " " + prop + "(" + value + "%)";
+                            break;
+
+                        default:
+                            css$$1[prop] = value;
+                    }
+
+                    return css$$1;
+
+                }, {transform: '', filter: ''});
+
+            }
+
+        }
+
+    };
+
+    function parseColor(el, color) {
+        return css(css(el, 'color', color), 'color').split(/[(),]/g).slice(1, -1).concat(1).slice(0, 4).map(function (n) { return toFloat(n); });
+    }
+
+    function getStep(steps, percent) {
+        var count = steps.length - 1;
+        var index$$1 = Math.min(Math.floor(count * percent), count - 1);
+        var step = steps.slice(index$$1, index$$1 + 2);
+
+        step.push(percent === 1 ? 1 : percent % (1 / count) * count);
+
+        return step;
+    }
+
+    function getValue(steps, percent) {
+        var ref = getStep(steps, percent);
+        var start = ref[0];
+        var end = ref[1];
+        var p = ref[2];
+        return (isNumber(start)
+                ? start + Math.abs(start - end) * p * (start < end ? 1 : -1)
+                : +end
+        ).toFixed(2);
+    }
+
+    function covers(el) {
+        var ref = el.style;
+        var backgroundSize = ref.backgroundSize;
+        var covers = css(css(el, 'backgroundSize', ''), 'backgroundSize') === 'cover';
+        el.style.backgroundSize = backgroundSize;
+        return covers;
+    }
+
+    var Parallax$1 = {
+
+        mixins: [Parallax],
+
+        props: {
+            target: String,
+            viewport: Number,
+            easing: Number,
+        },
+
+        data: {
+            target: false,
+            viewport: 1,
+            easing: 1,
+        },
+
+        computed: {
+
+            target: function(ref, $el) {
+                var target = ref.target;
+
+                return target && query(target, $el) || $el;
+            }
+
+        },
+
+        update: [
+
+            {
+
+                read: function(ref) {
+                    var percent = ref.percent;
+
+                    return {
+                        prev: percent,
+                        percent: ease$1(scrolledOver(this.target) / (this.viewport || 1), this.easing)
+                    };
+                },
+
+                write: function(ref, ref$1) {
+                    var prev = ref.prev;
+                    var percent = ref.percent;
+                    var active = ref.active;
+                    var type = ref$1.type;
+
+
+                    if (type !== 'scroll') {
+                        prev = false;
+                    }
+
+                    if (!active) {
+                        this.reset();
+                        return;
+                    }
+
+                    if (prev !== percent) {
+                        css(this.$el, this.getCss(percent));
+                    }
+
+                },
+
+                events: ['scroll', 'load', 'resize']
+            }
+
+        ]
+
+    };
+
+    function ease$1(percent, easing) {
+        return clamp(percent * (1 - (easing - easing * percent)));
+    }
+
     var SliderReactive = {
 
         update: [
@@ -9264,48 +10488,7 @@
 
     };
 
-    var Animations = {
-
-        slide: {
-
-            show: function(dir) {
-                return [
-                    {transform: translate(dir * -100)},
-                    {transform: translate()}
-                ];
-            },
-
-            percent: function(current) {
-                return translated(current);
-            },
-
-            translate: function(percent, dir) {
-                return [
-                    {transform: translate(dir * -100 * percent)},
-                    {transform: translate(dir * 100 * (1 - percent))}
-                ];
-            }
-
-        }
-
-    };
-
-    function translated(el) {
-        return Math.abs(css(el, 'transform').split(',')[4] / el.offsetWidth) || 0;
-    }
-
-    function translate(value, unit) {
-        if ( value === void 0 ) value = 0;
-        if ( unit === void 0 ) unit = '%';
-
-        return ("translateX(" + value + (value ? unit : '') + ")"); // currently not translate3d to support IE, translate3d within translate3d does not work while transitioning
-    }
-
-    function scale3d(value) {
-        return ("scale3d(" + value + ", " + value + ", 1)");
-    }
-
-    function Transitioner (prev, next, dir, ref) {
+    function Transitioner$1 (prev, next, dir, ref) {
         var center = ref.center;
         var easing = ref.easing;
         var list = ref.list;
@@ -9335,8 +10518,8 @@
 
                 prev && this.updateTranslates();
                 percent = prev ? percent : clamp(percent, 0, 1);
-                triggerUpdate(this.getItemIn(), 'itemin', {percent: percent, duration: duration, timing: timing, dir: dir});
-                prev && triggerUpdate(this.getItemIn(true), 'itemout', {percent: 1 - percent, duration: duration, timing: timing, dir: dir});
+                triggerUpdate$1(this.getItemIn(), 'itemin', {percent: percent, duration: duration, timing: timing, dir: dir});
+                prev && triggerUpdate$1(this.getItemIn(true), 'itemout', {percent: 1 - percent, duration: duration, timing: timing, dir: dir});
 
                 Transition
                     .start(list, {transform: translate(-to * (isRtl ? -1 : 1), 'px')}, duration, timing)
@@ -9379,8 +10562,8 @@
 
                 if (prev) {
                     percent = clamp(percent, -1, 1);
-                    triggerUpdate(this.getItemIn(), 'itemtranslatein', {percent: percent, dir: dir});
-                    triggerUpdate(this.getItemIn(true), 'itemtranslateout', {percent: 1 - percent, dir: dir});
+                    triggerUpdate$1(this.getItemIn(), 'itemtranslatein', {percent: percent, dir: dir});
+                    triggerUpdate$1(this.getItemIn(true), 'itemtranslateout', {percent: 1 - percent, dir: dir});
                 }
 
             },
@@ -9423,7 +10606,7 @@
                 slides(list).forEach(function (slide) {
                     var isActive = includes(actives, slide);
 
-                    triggerUpdate(slide, ("itemtranslate" + (isActive ? 'in' : 'out')), {
+                    triggerUpdate$1(slide, ("itemtranslate" + (isActive ? 'in' : 'out')), {
                         percent: isActive ? 1 : 0,
                         dir: slide.offsetLeft <= next.offsetLeft ? 1 : -1
                     });
@@ -9464,7 +10647,7 @@
         return (el.offsetLeft + (isRtl ? el.offsetWidth - list.offsetWidth : 0)) * (isRtl ? -1 : 1);
     }
 
-    function triggerUpdate(el, type, data$$1) {
+    function triggerUpdate$1(el, type, data$$1) {
         trigger(el, createEvent(type, false, false, data$$1));
     }
 
@@ -9488,7 +10671,7 @@
             selList: '.uk-slider-items',
             selNav: '.uk-slider-nav',
             clsContainer: 'uk-slider-container',
-            Transitioner: Transitioner
+            Transitioner: Transitioner$1
         },
 
         computed: {
@@ -9852,160 +11035,7 @@
                 : percent;
     }
 
-    function Transitioner$1(prev, next, dir, ref) {
-        var animation = ref.animation;
-        var easing = ref.easing;
-
-
-        var percent = animation.percent;
-        var translate = animation.translate;
-        var show = animation.show; if ( show === void 0 ) show = noop;
-        var props = show(dir);
-        var deferred = new Deferred();
-
-        return {
-
-            dir: dir,
-
-            show: function(duration, percent, linear) {
-                var this$1 = this;
-                if ( percent === void 0 ) percent = 0;
-
-
-                var timing = linear ? 'linear' : easing;
-                duration -= Math.round(duration * clamp(percent, -1, 1));
-
-                this.translate(percent);
-
-                triggerUpdate$1(next, 'itemin', {percent: percent, duration: duration, timing: timing, dir: dir});
-                triggerUpdate$1(prev, 'itemout', {percent: 1 - percent, duration: duration, timing: timing, dir: dir});
-
-                Promise.all([
-                    Transition.start(next, props[1], duration, timing),
-                    Transition.start(prev, props[0], duration, timing)
-                ]).then(function () {
-                    this$1.reset();
-                    deferred.resolve();
-                }, noop);
-
-                return deferred.promise;
-            },
-
-            stop: function() {
-                return Transition.stop([next, prev]);
-            },
-
-            cancel: function() {
-                Transition.cancel([next, prev]);
-            },
-
-            reset: function() {
-                for (var prop in props[0]) {
-                    css([next, prev], prop, '');
-                }
-            },
-
-            forward: function(duration, percent) {
-                if ( percent === void 0 ) percent = this.percent();
-
-                Transition.cancel([next, prev]);
-                return this.show(duration, percent, true);
-
-            },
-
-            translate: function(percent) {
-
-                this.reset();
-
-                var props = translate(percent, dir);
-                css(next, props[1]);
-                css(prev, props[0]);
-                triggerUpdate$1(next, 'itemtranslatein', {percent: percent, dir: dir});
-                triggerUpdate$1(prev, 'itemtranslateout', {percent: 1 - percent, dir: dir});
-
-            },
-
-            percent: function() {
-                return percent(prev || next, next, dir);
-            },
-
-            getDistance: function() {
-                return prev.offsetWidth;
-            }
-
-        };
-
-    }
-
-    function triggerUpdate$1(el, type, data$$1) {
-        trigger(el, createEvent(type, false, false, data$$1));
-    }
-
-    var Slideshow = {
-
-        mixins: [Slider],
-
-        props: {
-            animation: String
-        },
-
-        data: {
-            animation: 'slide',
-            clsActivated: 'uk-transition-active',
-            Animations: Animations,
-            Transitioner: Transitioner$1
-        },
-
-        computed: {
-
-            animation: function(ref) {
-                var animation = ref.animation;
-                var Animations$$1 = ref.Animations;
-
-                return assign(animation in Animations$$1 ? Animations$$1[animation] : Animations$$1.slide, {name: animation});
-            },
-
-            transitionOptions: function() {
-                return {animation: this.animation};
-            }
-
-        },
-
-        events: {
-
-            'itemshow itemhide itemshown itemhidden': function(ref) {
-                var target = ref.target;
-
-                this.$update(target);
-            },
-
-            itemshow: function() {
-                isNumber(this.prevIndex) && fastdom.flush(); // iOS 10+ will honor the video.play only if called from a gesture handler
-            },
-
-            beforeitemshow: function(ref) {
-                var target = ref.target;
-
-                addClass(target, this.clsActive);
-            },
-
-            itemshown: function(ref) {
-                var target = ref.target;
-
-                addClass(target, this.clsActivated);
-            },
-
-            itemhidden: function(ref) {
-                var target = ref.target;
-
-                removeClass(target, this.clsActive, this.clsActivated);
-            }
-
-        }
-
-    };
-
-    var Animations$1 = assign({}, Animations, {
+    var Animations$2 = assign({}, Animations, {
 
         fade: {
 
@@ -10134,7 +11164,7 @@
             selList: '.uk-slideshow-items',
             attrItem: 'uk-slideshow-item',
             selNav: '.uk-slideshow-nav',
-            Animations: Animations$1
+            Animations: Animations$2
         },
 
         update: {
@@ -10170,23 +11200,623 @@
 
     };
 
-    // import Sortable from './components/sortable';
-    // import Tooltip from './components/tooltip';
-    // import Upload from './components/upload';
+    var obj$1;
 
-    // UIkit.component('countdown', Countdown);
-    // UIkit.component('filter', Filter);
-    // UIkit.component('lightbox', Lightbox);
-    // UIkit.component('lightboxPanel', lightboxPanel);
+    var Sortable = {
+
+        mixins: [Class, Animate],
+
+        props: {
+            group: String,
+            threshold: Number,
+            clsItem: String,
+            clsPlaceholder: String,
+            clsDrag: String,
+            clsDragState: String,
+            clsBase: String,
+            clsNoDrag: String,
+            clsEmpty: String,
+            clsCustom: String,
+            handle: String
+        },
+
+        data: {
+            group: false,
+            threshold: 5,
+            clsItem: 'uk-sortable-item',
+            clsPlaceholder: 'uk-sortable-placeholder',
+            clsDrag: 'uk-sortable-drag',
+            clsDragState: 'uk-drag',
+            clsBase: 'uk-sortable',
+            clsNoDrag: 'uk-sortable-nodrag',
+            clsEmpty: 'uk-sortable-empty',
+            clsCustom: '',
+            handle: false
+        },
+
+        init: function() {
+            var this$1 = this;
+
+            ['init', 'start', 'move', 'end'].forEach(function (key) {
+                var fn = this$1[key];
+                this$1[key] = function (e) {
+                    this$1.scrollY = window.pageYOffset;
+                    var ref = getPos$1(e);
+                    var x = ref.x;
+                    var y = ref.y;
+                    this$1.pos = {x: x, y: y};
+
+                    fn(e);
+                };
+            });
+        },
+
+        events: ( obj$1 = {}, obj$1[pointerDown] = 'init', obj$1 ),
+
+        update: {
+
+            write: function() {
+
+                if (this.clsEmpty) {
+                    toggleClass(this.$el, this.clsEmpty, !this.$el.children.length);
+                }
+
+                if (!this.drag) {
+                    return;
+                }
+
+                offset(this.drag, {top: this.pos.y + this.origin.top, left: this.pos.x + this.origin.left});
+
+                var ref = offset(this.drag);
+                var top = ref.top;
+                var bottom = top + this.drag.offsetHeight;
+                var scroll;
+
+                if (top > 0 && top < this.scrollY) {
+                    scroll = this.scrollY - 5;
+                } else if (bottom < height(document) && bottom > height(window) + this.scrollY) {
+                    scroll = this.scrollY + 5;
+                }
+
+                scroll && setTimeout(function () { return scrollTop(window, scroll); }, 5);
+            }
+
+        },
+
+        methods: {
+
+            init: function(e) {
+
+                var target = e.target;
+                var button = e.button;
+                var defaultPrevented = e.defaultPrevented;
+                var ref = toNodes(this.$el.children).filter(function (el) { return within(target, el); });
+                var placeholder = ref[0];
+
+                if (!placeholder
+                    || isInput(e.target)
+                    || this.handle && !within(target, this.handle)
+                    || button > 0
+                    || within(target, ("." + (this.clsNoDrag)))
+                    || defaultPrevented
+                ) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                this.touched = [this];
+                this.placeholder = placeholder;
+                this.origin = assign({target: target, index: index(placeholder)}, this.pos);
+
+                on(document, pointerMove, this.move);
+                on(document, pointerUp, this.end);
+                on(window, 'scroll', this.scroll);
+
+                if (!this.threshold) {
+                    this.start(e);
+                }
+
+            },
+
+            start: function(e) {
+
+                this.drag = append(this.$container, this.placeholder.outerHTML.replace(/^<li/i, '<div').replace(/li>$/i, 'div>'));
+
+                css(this.drag, assign({
+                    boxSizing: 'border-box',
+                    width: this.placeholder.offsetWidth,
+                    height: this.placeholder.offsetHeight
+                }, css(this.placeholder, ['paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom'])));
+                attr(this.drag, 'uk-no-boot', '');
+                addClass(this.drag, this.clsDrag, this.clsCustom);
+
+                height(this.drag.firstElementChild, height(this.placeholder.firstElementChild));
+
+                var ref = offset(this.placeholder);
+                var left = ref.left;
+                var top = ref.top;
+                assign(this.origin, {left: left - this.pos.x, top: top - this.pos.y});
+
+                addClass(this.placeholder, this.clsPlaceholder);
+                addClass(this.$el.children, this.clsItem);
+                addClass(document.documentElement, this.clsDragState);
+
+                trigger(this.$el, 'start', [this, this.placeholder]);
+
+                this.move(e);
+            },
+
+            move: function(e) {
+
+                if (!this.drag) {
+
+                    if (Math.abs(this.pos.x - this.origin.x) > this.threshold || Math.abs(this.pos.y - this.origin.y) > this.threshold) {
+                        this.start(e);
+                    }
+
+                    return;
+                }
+
+                this.$emit();
+
+                var target = e.type === 'mousemove' ? e.target : document.elementFromPoint(this.pos.x - document.body.scrollLeft, this.pos.y - document.body.scrollTop);
+
+                var sortable = this.getSortable(target);
+                var previous = this.getSortable(this.placeholder);
+                var move = sortable !== previous;
+
+                if (!sortable || within(target, this.placeholder) || move && (!sortable.group || sortable.group !== previous.group)) {
+                    return;
+                }
+
+                target = sortable.$el === target.parentNode && target || toNodes(sortable.$el.children).filter(function (element) { return within(target, element); })[0];
+
+                if (move) {
+                    previous.remove(this.placeholder);
+                } else if (!target) {
+                    return;
+                }
+
+                sortable.insert(this.placeholder, target);
+
+                if (!includes(this.touched, sortable)) {
+                    this.touched.push(sortable);
+                }
+
+            },
+
+            scroll: function() {
+                var scroll = window.pageYOffset;
+                if (scroll !== this.scrollY) {
+                    this.pos.y += scroll - this.scrollY;
+                    this.scrollY = scroll;
+                    this.$emit();
+                }
+            },
+
+            end: function(e) {
+
+                off(document, pointerMove, this.move);
+                off(document, pointerUp, this.end);
+                off(window, 'scroll', this.scroll);
+
+                if (!this.drag) {
+
+                    if (e.type !== 'mouseup' && within(e.target, 'a[href]')) {
+                        location.href = closest(e.target, 'a[href]').href;
+                    }
+
+                    return;
+                }
+
+                preventClick();
+
+                var sortable = this.getSortable(this.placeholder);
+
+                if (this === sortable) {
+                    if (this.origin.index !== index(this.placeholder)) {
+                        trigger(this.$el, 'moved', [this, this.placeholder]);
+                    }
+                } else {
+                    trigger(sortable.$el, 'added', [sortable, this.placeholder]);
+                    trigger(this.$el, 'removed', [this, this.placeholder]);
+                }
+
+                trigger(this.$el, 'stop', [this, this.placeholder]);
+
+                remove(this.drag);
+                this.drag = null;
+
+                var classes = this.touched.map(function (sortable) { return ((sortable.clsPlaceholder) + " " + (sortable.clsItem)); }).join(' ');
+                this.touched.forEach(function (sortable) { return removeClass(sortable.$el.children, classes); });
+
+                removeClass(document.documentElement, this.clsDragState);
+
+            },
+
+            insert: function(element, target) {
+                var this$1 = this;
+
+
+                addClass(this.$el.children, this.clsItem);
+
+                var insert = function () {
+
+                    if (target) {
+
+                        if (!within(element, this$1.$el) || isPredecessor(element, target)) {
+                            before(target, element);
+                        } else {
+                            after(target, element);
+                        }
+
+                    } else {
+                        append(this$1.$el, element);
+                    }
+
+                };
+
+                if (this.animation) {
+                    this.animate(insert);
+                } else {
+                    insert();
+                }
+
+            },
+
+            remove: function(element) {
+
+                if (!within(element, this.$el)) {
+                    return;
+                }
+
+                if (this.animation) {
+                    this.animate(function () { return remove(element); });
+                } else {
+                    remove(element);
+                }
+
+            },
+
+            getSortable: function(element) {
+                return element && (this.$getComponent(element, 'sortable') || this.getSortable(element.parentNode));
+            }
+
+        }
+
+    };
+
+    function isPredecessor(element, target) {
+        return element.parentNode === target.parentNode && index(element) > index(target);
+    }
+
+    var obj$2;
+
+    var actives = [];
+
+    var Tooltip = {
+
+        mixins: [Container, Togglable, Position],
+
+        args: 'title',
+
+        attrs: true,
+
+        props: {
+            delay: Number,
+            title: String
+        },
+
+        data: {
+            pos: 'top',
+            title: '',
+            delay: 0,
+            animation: ['uk-animation-scale-up'],
+            duration: 100,
+            cls: 'uk-active',
+            clsPos: 'uk-tooltip'
+        },
+
+        beforeConnect: function() {
+            this._hasTitle = hasAttr(this.$el, 'title');
+            attr(this.$el, {title: '', 'aria-expanded': false});
+        },
+
+        disconnected: function() {
+            this.hide();
+            attr(this.$el, {title: this._hasTitle ? this.title : null, 'aria-expanded': null});
+        },
+
+        methods: {
+
+            show: function() {
+                var this$1 = this;
+
+
+                if (includes(actives, this)) {
+                    return;
+                }
+
+                actives.forEach(function (active) { return active.hide(); });
+                actives.push(this);
+
+                this._unbind = on(document, 'click', function (e) { return !within(e.target, this$1.$el) && this$1.hide(); });
+
+                clearTimeout(this.showTimer);
+
+                this.tooltip = append(this.container, ("<div class=\"" + (this.clsPos) + "\" aria-hidden><div class=\"" + (this.clsPos) + "-inner\">" + (this.title) + "</div></div>"));
+
+                attr(this.$el, 'aria-expanded', true);
+
+                this.positionAt(this.tooltip, this.$el);
+
+                this.origin = this.getAxis() === 'y' ? ((flipPosition(this.dir)) + "-" + (this.align)) : ((this.align) + "-" + (flipPosition(this.dir)));
+
+                this.showTimer = setTimeout(function () {
+
+                    this$1.toggleElement(this$1.tooltip, true);
+
+                    this$1.hideTimer = setInterval(function () {
+
+                        if (!isVisible(this$1.$el)) {
+                            this$1.hide();
+                        }
+
+                    }, 150);
+
+                }, this.delay);
+            },
+
+            hide: function() {
+
+                var index$$1 = actives.indexOf(this);
+
+                if (!~index$$1 || matches(this.$el, 'input') && this.$el === document.activeElement) {
+                    return;
+                }
+
+                actives.splice(index$$1, 1);
+
+                clearTimeout(this.showTimer);
+                clearInterval(this.hideTimer);
+                attr(this.$el, 'aria-expanded', false);
+                this.toggleElement(this.tooltip, false);
+                this.tooltip && remove(this.tooltip);
+                this.tooltip = false;
+                this._unbind();
+
+            }
+
+        },
+
+        events: ( obj$2 = {}, obj$2[("focus " + pointerEnter + " " + pointerDown)] = function (e) {
+                if (e.type !== pointerDown || !isTouch(e)) {
+                    this.show();
+                }
+            }, obj$2.blur = 'hide', obj$2[pointerLeave] = function (e) {
+                if (!isTouch(e)) {
+                    this.hide();
+                }
+            }, obj$2 )
+
+    };
+
+    var Upload = {
+
+        props: {
+            allow: String,
+            clsDragover: String,
+            concurrent: Number,
+            maxSize: Number,
+            method: String,
+            mime: String,
+            msgInvalidMime: String,
+            msgInvalidName: String,
+            msgInvalidSize: String,
+            multiple: Boolean,
+            name: String,
+            params: Object,
+            type: String,
+            url: String,
+        },
+
+        data: {
+            allow: false,
+            clsDragover: 'uk-dragover',
+            concurrent: 1,
+            maxSize: 0,
+            method: 'POST',
+            mime: false,
+            msgInvalidMime: 'Invalid File Type: %s',
+            msgInvalidName: 'Invalid File Name: %s',
+            msgInvalidSize: 'Invalid File Size: %s Kilobytes Max',
+            multiple: false,
+            name: 'files[]',
+            params: {},
+            type: '',
+            url: '',
+            abort: noop,
+            beforeAll: noop,
+            beforeSend: noop,
+            complete: noop,
+            completeAll: noop,
+            error: noop,
+            fail: noop,
+            load: noop,
+            loadEnd: noop,
+            loadStart: noop,
+            progress: noop
+        },
+
+        events: {
+
+            change: function(e) {
+
+                if (!matches(e.target, 'input[type="file"]')) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                if (e.target.files) {
+                    this.upload(e.target.files);
+                }
+
+                e.target.value = '';
+            },
+
+            drop: function(e) {
+                stop(e);
+
+                var transfer = e.dataTransfer;
+
+                if (!transfer || !transfer.files) {
+                    return;
+                }
+
+                removeClass(this.$el, this.clsDragover);
+
+                this.upload(transfer.files);
+            },
+
+            dragenter: function(e) {
+                stop(e);
+            },
+
+            dragover: function(e) {
+                stop(e);
+                addClass(this.$el, this.clsDragover);
+            },
+
+            dragleave: function(e) {
+                stop(e);
+                removeClass(this.$el, this.clsDragover);
+            }
+
+        },
+
+        methods: {
+
+            upload: function(files) {
+                var this$1 = this;
+
+
+                if (!files.length) {
+                    return;
+                }
+
+                trigger(this.$el, 'upload', [files]);
+
+                for (var i = 0; i < files.length; i++) {
+
+                    if (this$1.maxSize && this$1.maxSize * 1000 < files[i].size) {
+                        this$1.fail(this$1.msgInvalidSize.replace('%s', this$1.maxSize));
+                        return;
+                    }
+
+                    if (this$1.allow && !match(this$1.allow, files[i].name)) {
+                        this$1.fail(this$1.msgInvalidName.replace('%s', this$1.allow));
+                        return;
+                    }
+
+                    if (this$1.mime && !match(this$1.mime, files[i].type)) {
+                        this$1.fail(this$1.msgInvalidMime.replace('%s', this$1.mime));
+                        return;
+                    }
+
+                }
+
+                if (!this.multiple) {
+                    files = [files[0]];
+                }
+
+                this.beforeAll(this, files);
+
+                var chunks = chunk(files, this.concurrent);
+                var upload = function (files) {
+
+                    var data$$1 = new FormData();
+
+                    files.forEach(function (file) { return data$$1.append(this$1.name, file); });
+
+                    for (var key in this$1.params) {
+                        data$$1.append(key, this$1.params[key]);
+                    }
+
+                    ajax(this$1.url, {
+                        data: data$$1,
+                        method: this$1.method,
+                        responseType: this$1.type,
+                        beforeSend: function (env) {
+
+                            var xhr = env.xhr;
+                            xhr.upload && on(xhr.upload, 'progress', this$1.progress);
+                            ['loadStart', 'load', 'loadEnd', 'abort'].forEach(function (type) { return on(xhr, type.toLowerCase(), this$1[type]); }
+                            );
+
+                            this$1.beforeSend(env);
+
+                        }
+                    }).then(
+                        function (xhr) {
+
+                            this$1.complete(xhr);
+
+                            if (chunks.length) {
+                                upload(chunks.shift());
+                            } else {
+                                this$1.completeAll(xhr);
+                            }
+
+                        },
+                        function (e) { return this$1.error(e.message); }
+                    );
+
+                };
+
+                upload(chunks.shift());
+
+            }
+
+        }
+
+    };
+
+    function match(pattern, path) {
+        return path.match(new RegExp(("^" + (pattern.replace(/\//g, '\\/').replace(/\*\*/g, '(\\/[^\\/]+)*').replace(/\*/g, '[^\\/]+').replace(/((?!\\))\?/g, '$1.')) + "$"), 'i'));
+    }
+
+    function chunk(files, size) {
+        var chunks = [];
+        for (var i = 0; i < files.length; i += size) {
+            var chunk = [];
+            for (var j = 0; j < size; j++) {
+                chunk.push(files[i + j]);
+            }
+            chunks.push(chunk);
+        }
+        return chunks;
+    }
+
+    function stop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    UIkit.component('countdown', Countdown);
+    UIkit.component('filter', Filter);
+    UIkit.component('lightbox', Lightbox);
+    UIkit.component('lightboxPanel', LightboxPanel);
     UIkit.component('notification', Notification);
     UIkit.component('parallax', Parallax$1);
     UIkit.component('slider', Slider$1);
     UIkit.component('sliderParallax', SliderParallax);
     UIkit.component('slideshow', Slideshow$1);
     UIkit.component('slideshowParallax', SliderParallax);
-    // UIkit.component('sortable', Sortable);
-    // UIkit.component('tooltip', Tooltip);
-    // UIkit.component('upload', Upload);
+    UIkit.component('sortable', Sortable);
+    UIkit.component('tooltip', Tooltip);
+    UIkit.component('upload', Upload);
 
     {
         boot(UIkit);
