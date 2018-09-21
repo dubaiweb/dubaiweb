@@ -1,9 +1,19 @@
-<li>
+<li class="uk-hidden@s">
   <figure class="portrait">
     <picture>
       <source media="(max-width: 375px)" srcset='{{ .Get "src" }}-375px.jpg'>
       <source media="(max-width: 420px)" srcset='{{ .Get "src" }}-420px.jpg'>
       <source media="(max-width: 640px)" srcset='{{ .Get "src" }}-640px.jpg'>
+      <img src='{{ .Get "src" }}.jpg' alt='{{ .Get " alt " }}'>
+    </picture>
+  </figure>
+</li>
+
+<li class="uk-visible@s">
+  <figure class="portrait">
+    <picture>
+      <source media="(max-width: 1280px)" srcset='{{ .Get "src" }}-420px.jpg'>
+      <source media="(max-width: 1480px)" srcset='{{ .Get "src" }}-640px.jpg'>
       <img src='{{ .Get "src" }}.jpg' alt='{{ .Get " alt " }}'>
     </picture>
   </figure>

@@ -47,7 +47,6 @@ const imgDestL = './site/static/sina/quer';
 
 const artist = "site/sina.toml";
 
-
 // Hugo arguments
 // const hugoArgsDefault = ["-d", "../dist", "-s", "site", "-v"];
 const hugoArgsDefault = ["-d", "../dist", "-s", "site", "-v", "--config", artist];
