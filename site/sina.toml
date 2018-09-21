@@ -3,6 +3,7 @@ title = "Sina Dubai Massage"
 languageCode = "en-us"
 languageLang = "en"
 enableEmoji = true
+googleAnalytics = "UA-126190930-1"
 
 disableKinds = ["RSS", "taxonomy", "taxonomyTerm"]
 
