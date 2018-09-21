@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="{{ $.Site.Language.Lang }}">
-
   <head>
     <title>{{ .Params.metatitle }}</title>
     <meta name="description" content="{{ .Params.metadescription }}">
@@ -19,14 +18,15 @@
     <meta name="theme-color" content="#ff7474">
     <link rel="stylesheet" href="css/app.css" />
   </head>
-
   <body>
     <div class="uk-offcanvas-content">
-      {{ block "header" . }}{{ partial "header" . }}{{end}} {{ block "main" . }} {{ replace .Content "
-      <p></p>" "" | safeHTML }} {{end}} {{ block "footer" . }}{{ partial "footer" . }}{{end}}
+      {{ block "header" . }}{{ partial "header" . }}{{end}}
+      {{ block "main" . }}
+        {{ replace .Content " <p></p>" "" | safeHTML }}
+      {{end}}
+      {{ block "footer" . }}{{ partial "footer" . }}{{end}}
     </div>
     <script src="app.bundle.js"></script>
     {{ template "_internal/google_analytics_async.html" . }}
   </body>
-
 </html>
