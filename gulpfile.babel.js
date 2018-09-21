@@ -45,7 +45,7 @@ const imgDestP = './site/static/sina/hoch';
 const imgSrcL = './src/sina/quer/*.jpg';
 const imgDestL = './site/static/sina/quer';
 
-const artist = "site/sina.toml";
+const artist = "site/sinalocal.toml";
 
 
 // Hugo arguments
