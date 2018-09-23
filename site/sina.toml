@@ -49,7 +49,7 @@ disableKinds = ["RSS", "taxonomy", "taxonomyTerm"]
     identifier = "contact"
     name = "Contact"
     pre = "<span class='uk-margin-small-right' uk-icon='icon:user'></span>"
-    url = "#contact"
+    url = "#footer"
     weight = 140
 
 [params]

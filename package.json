@@ -56,7 +56,6 @@
     "postcss-utilities": "^0.8.0",
     "precss": "^3.1.2",
     "rucksack-css": "^1.0.2",
-    "sharp": "^0.20.8",
     "uikit": "^3.0.0-rc.10",
     "url-loader": "^1.0.1",
     "webfontloader": "^1.6.28",

@@ -32,8 +32,6 @@ layout: "sinasingle"
 {{< secgal3 >}}
   {{< pic3 src="sina/quer/Sina-201" alt="Sina's sexy Photo" >}}
   {{< pic3 src="sina/quer/Sina-204" alt="Sina's sexy Photo" >}}
-  {{< pic3 src="sina/quer/Sina-203" alt="Sina's sexy Photo" >}}
   {{< pic3 src="sina/quer/Sina-202" alt="Sina's sexy Photo" >}}
   {{< pic3 src="sina/quer/Sina-200" alt="Sina's sexy Photo" >}}
-  {{< pic3 src="sina/quer/Sina-205" alt="Sina's sexy Photo" >}}
 {{< /secgal >}}
