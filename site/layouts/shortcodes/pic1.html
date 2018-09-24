@@ -1,0 +1,9 @@
+<li>
+  <figure class="portrait">
+    <picture>
+      <source media="(max-width: 1280px)" srcset='{{ .Get "src" }}-420px.jpg'>
+      <source media="(max-width: 1480px)" srcset='{{ .Get "src" }}-640px.jpg'>
+      <img src='{{ .Get "src" }}.jpg' alt='{{ .Get " alt " }}'>
+    </picture>
+  </figure>
+</li>

@@ -39,7 +39,7 @@ const imgOpt = [
   imagemin.optipng({optimizationLevel: 5})
 ];
 
-const imgSrcP = './src/sina/hoch/*.jpg';
+const imgSrcP = './src/sina/hoch2/*.jpg';
 const imgDestP = './site/static/sina/hoch';
 
 const imgSrcL = './src/sina/quer/*.jpg';
@@ -123,14 +123,14 @@ gulp.task('picl', function() {
     .pipe(responsive({
       // Resize all JPG images to three different sizes: 200, 500, and 630 pixels
       '*.jpg': [{
+        width: 480,
+        rename: { suffix: '-375px' },
+      }, {
         width: 600,
         rename: { suffix: '-420px' },
       }, {
-        width: 1200,
-        rename: { suffix: '-800px' },
-      }, {
-        width: 1600,
-        rename: { suffix: '-1280px' },
+        width: 800,
+        rename: { suffix: '-640px' },
       }, {
         // Compress, strip metadata, and rename original image
         rename: { suffix: '' },
