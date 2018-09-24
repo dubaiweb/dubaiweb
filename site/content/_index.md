@@ -16,11 +16,8 @@ layout: "sinasingle"
 ---
 {{< secdesc pics="sina/portrait02.jpg" />}}
 {{< secgal >}}
-  {{< pic2 src="sina/hoch/Sina-106" alt="Sina's sexy Photo" >}}
   {{< pic2 src="sina/hoch/Sina-100" alt="Sina's sexy Photo" >}}
   {{< pic2 src="sina/hoch/Sina-116" alt="Sina's sexy Photo" >}}
-  {{< pic2 src="sina/hoch/Sina-118" alt="Sina's sexy Photo" >}}
-  {{< pic2 src="sina/hoch/Sina-122" alt="Sina's sexy Photo" >}}
   {{< pic2 src="sina/hoch/Sina-123" alt="Sina's sexy Photo" >}}
   {{< pic2 src="sina/hoch/Sina-101" alt="Sina's sexy Photo" >}}
   {{< pic2 src="sina/hoch/Sina-103" alt="Sina's sexy Photo" >}}
