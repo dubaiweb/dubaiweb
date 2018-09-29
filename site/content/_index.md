@@ -14,7 +14,7 @@ draft: false
 type: "profiles"
 layout: "sinasingle"
 ---
-{{< secdesc pics="sina/portrait02.jpg" />}}
+{{< secdesc pics="sina/newportrait01.jpg" />}}
 
 {{< secgal0 >}}
   {{< pic0 src="sina/hoch/Sina-100" alt="Sina's sexy Photos" >}}
@@ -51,5 +51,4 @@ layout: "sinasingle"
   {{< pic3 src="sina/quer/Sina-201" alt="Sina's sexy Photos" >}}
   {{< pic3 src="sina/quer/Sina-204" alt="Sina's sexy Photos" >}}
   {{< pic3 src="sina/quer/Sina-202" alt="Sina's sexy Photos" >}}
-  {{< pic3 src="sina/quer/Sina-200" alt="Sina's sexy Photos" >}}
 {{< /secgal3 >}}
